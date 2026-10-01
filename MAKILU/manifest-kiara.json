@@ -1,0 +1,23 @@
+{
+  "name": "MAKILÚ - Panel Kiara",
+  "short_name": "MAKILÚ Kiara",
+  "description": "Panel privado de pedidos de MAKILÚ",
+  "start_url": "/kiara.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#e8d7f5",
+  "theme_color": "#f6d86b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-kiara-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-kiara-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

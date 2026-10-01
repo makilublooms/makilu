@@ -1,0 +1,4489 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>MAKILÚ | Panel de Kiara</title>
+
+<!-- =========================================
+     CONFIGURACIÓN DE APP
+========================================= -->
+
+<link
+    rel="manifest"
+    href="./manifest-kiara.json"
+>
+
+<meta
+    name="theme-color"
+    content="#f6d86b"
+>
+
+<meta
+    name="mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-title"
+    content="MAKILÚ Kiara"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+>
+
+<link
+    rel="icon"
+    type="image/svg+xml"
+    href="./icon-kiara.svg"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="./icon-kiara.svg"
+>
+
+
+<!-- =========================================
+     FUENTES
+========================================= -->
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Parisienne&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    body {
+        min-height: 100vh;
+
+        font-family:
+            "Playfair Display",
+            serif;
+
+        background:
+            radial-gradient(
+                circle at 15% 20%,
+                rgba(255,255,255,.20),
+                transparent 20%
+            ),
+
+            radial-gradient(
+                circle at 85% 10%,
+                rgba(255,255,255,.18),
+                transparent 20%
+            ),
+
+            linear-gradient(
+                135deg,
+                #d8b8df,
+                #cba7d5,
+                #ead5e8,
+                #bda0cb
+            );
+
+        color: #5d5260;
+
+        overflow-x: hidden;
+    }
+
+
+    /* =========================================
+       DECORACIÓN
+    ========================================= */
+
+    .luces {
+        position: fixed;
+        inset: 0;
+
+        pointer-events: none;
+
+        z-index: 0;
+
+        overflow: hidden;
+    }
+
+
+    .luz {
+        position: absolute;
+
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: #fff3a8;
+
+        box-shadow:
+            0 0 8px #fff4a8,
+            0 0 18px rgba(255,241,145,.8);
+
+        animation:
+            parpadear
+            2.5s
+            infinite
+            alternate;
+    }
+
+
+    .luz:nth-child(1) {
+        top: 8%;
+        left: 12%;
+        animation-delay: .3s;
+    }
+
+
+    .luz:nth-child(2) {
+        top: 18%;
+        left: 75%;
+        animation-delay: 1s;
+    }
+
+
+    .luz:nth-child(3) {
+        top: 42%;
+        left: 5%;
+        animation-delay: 1.5s;
+    }
+
+
+    .luz:nth-child(4) {
+        top: 55%;
+        left: 92%;
+        animation-delay: .6s;
+    }
+
+
+    .luz:nth-child(5) {
+        top: 75%;
+        left: 18%;
+        animation-delay: 1.2s;
+    }
+
+
+    .luz:nth-child(6) {
+        top: 88%;
+        left: 82%;
+        animation-delay: .8s;
+    }
+
+
+    .luz:nth-child(7) {
+        top: 30%;
+        left: 48%;
+        animation-delay: 1.8s;
+    }
+
+
+    .luz:nth-child(8) {
+        top: 67%;
+        left: 58%;
+        animation-delay: .4s;
+    }
+
+
+    @keyframes parpadear {
+
+        from {
+            opacity: .25;
+            transform: scale(.7);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1.35);
+        }
+
+    }
+
+
+    .hojas {
+        position: fixed;
+        inset: 0;
+
+        pointer-events: none;
+
+        overflow: hidden;
+
+        z-index: 1;
+    }
+
+
+    .hoja {
+        position: absolute;
+
+        font-size: 28px;
+
+        opacity: .45;
+
+        animation:
+            caer
+            12s
+            linear
+            infinite;
+    }
+
+
+    .hoja:nth-child(1) {
+        left: 5%;
+        animation-delay: 1s;
+    }
+
+
+    .hoja:nth-child(2) {
+        left: 22%;
+        animation-delay: 5s;
+    }
+
+
+    .hoja:nth-child(3) {
+        left: 44%;
+        animation-delay: 2s;
+    }
+
+
+    .hoja:nth-child(4) {
+        left: 68%;
+        animation-delay: 7s;
+    }
+
+
+    .hoja:nth-child(5) {
+        left: 88%;
+        animation-delay: 4s;
+    }
+
+
+    @keyframes caer {
+
+        0% {
+            top: -10%;
+            transform: rotate(0deg);
+        }
+
+        50% {
+            transform:
+                translateX(40px)
+                rotate(160deg);
+        }
+
+        100% {
+            top: 110%;
+            transform:
+                translateX(-30px)
+                rotate(360deg);
+        }
+
+    }
+
+
+    .flores-decoracion {
+        position: fixed;
+        inset: 0;
+
+        pointer-events: none;
+
+        z-index: 1;
+
+        overflow: hidden;
+    }
+
+
+    .flor-decorativa {
+        position: absolute;
+
+        font-size: 35px;
+
+        opacity: .45;
+
+        animation:
+            flotar
+            5s
+            ease-in-out
+            infinite;
+    }
+
+
+    .flor-decorativa:nth-child(1) {
+        top: 14%;
+        left: 3%;
+    }
+
+
+    .flor-decorativa:nth-child(2) {
+        top: 25%;
+        right: 4%;
+        animation-delay: 1s;
+    }
+
+
+    .flor-decorativa:nth-child(3) {
+        bottom: 12%;
+        left: 5%;
+        animation-delay: 2s;
+    }
+
+
+    .flor-decorativa:nth-child(4) {
+        bottom: 8%;
+        right: 5%;
+        animation-delay: 3s;
+    }
+
+
+    @keyframes flotar {
+
+        0%,100% {
+            transform:
+                translateY(0)
+                rotate(-5deg);
+        }
+
+        50% {
+            transform:
+                translateY(-12px)
+                rotate(7deg);
+        }
+
+    }
+
+
+    /* =========================================
+       LOGIN
+    ========================================= */
+
+    #loginScreen {
+        min-height: 100vh;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 25px;
+
+        position: relative;
+
+        z-index: 5;
+    }
+
+
+    .login-card {
+        width: min(430px, 100%);
+
+        background:
+            rgba(255,255,255,.94);
+
+        border:
+            3px solid #f1d276;
+
+        border-radius: 30px;
+
+        padding: 42px 35px;
+
+        text-align: center;
+
+        box-shadow:
+            0 20px 50px
+            rgba(90,65,95,.25),
+
+            inset 0 0 30px
+            rgba(255,236,167,.25);
+
+        position: relative;
+    }
+
+
+    .login-flor {
+        font-size: 45px;
+        margin-bottom: 10px;
+    }
+
+
+    .login-title {
+        font-family:
+            "Parisienne",
+            cursive;
+
+        font-size: 58px;
+
+        color: #596b3d;
+
+        line-height: 1;
+    }
+
+
+    .login-subtitle {
+        margin-top: 8px;
+
+        font-family:
+            "GFS Didot",
+            serif;
+
+        color: #96708e;
+
+        font-size: 18px;
+    }
+
+
+    .login-divider {
+        width: 80%;
+
+        height: 1px;
+
+        background: #ead6a0;
+
+        margin: 25px auto;
+    }
+
+
+    .login-text {
+        color: #756778;
+
+        font-size: 15px;
+
+        line-height: 1.6;
+
+        margin-bottom: 20px;
+    }
+
+
+    .password-wrapper {
+        text-align: left;
+
+        margin-bottom: 18px;
+    }
+
+
+    .password-wrapper label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #596b3d;
+
+        font-weight: 600;
+    }
+
+
+    #passwordInput {
+        width: 100%;
+
+        padding: 15px 17px;
+
+        border:
+            2px solid #e5c8d7;
+
+        border-radius: 15px;
+
+        outline: none;
+
+        font-family:
+            "Playfair Display",
+            serif;
+
+        font-size: 16px;
+
+        background: #fffdf8;
+
+        color: #594e59;
+
+        transition: .2s;
+    }
+
+
+    #passwordInput:focus {
+        border-color: #b9a0c2;
+
+        box-shadow:
+            0 0 0 4px
+            rgba(185,160,194,.15);
+    }
+
+
+    .login-button {
+        width: 100%;
+
+        border: none;
+
+        padding: 15px;
+
+        border-radius: 18px;
+
+        background: #f1d276;
+
+        color: #67582e;
+
+        font-family:
+            "Playfair Display",
+            serif;
+
+        font-size: 17px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: .25s;
+
+        box-shadow:
+            0 8px 18px
+            rgba(145,116,44,.15);
+    }
+
+
+    .login-button:hover {
+        transform: translateY(-2px);
+
+        background: #f5dc91;
+    }
+
+
+    .login-button:disabled {
+        opacity: .65;
+
+        cursor: wait;
+
+        transform: none;
+    }
+
+
+    .login-error {
+        display: none;
+
+        margin-top: 15px;
+
+        padding: 12px;
+
+        border-radius: 13px;
+
+        background: #f8e0e5;
+
+        color: #a25769;
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    .login-loading {
+        display: none;
+
+        margin-top: 15px;
+
+        color: #806070;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================================
+       PANEL
+    ========================================= */
+
+    #adminPanel {
+        display: none;
+
+        position: relative;
+
+        z-index: 3;
+
+        min-height: 100vh;
+    }
+
+
+    header {
+        background:
+            rgba(255,255,255,.88);
+
+        backdrop-filter:
+            blur(8px);
+
+        border-bottom:
+            2px solid
+            rgba(241,210,118,.7);
+
+        padding: 25px 30px;
+
+        position: relative;
+
+        z-index: 5;
+    }
+
+
+    .header-content {
+        width: min(1180px, 94%);
+
+        margin: auto;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+    }
+
+
+    .brand {
+        text-align: left;
+    }
+
+
+    .brand h1 {
+        font-family:
+            "Parisienne",
+            cursive;
+
+        font-size: 55px;
+
+        color: #596b3d;
+
+        line-height: .9;
+    }
+
+
+    .brand p {
+        margin-top: 8px;
+
+        color: #8d6c89;
+
+        font-size: 15px;
+    }
+
+
+    .admin-user {
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        background: #fff9e9;
+
+        border:
+            1px solid #eddca5;
+
+        padding: 10px 15px;
+
+        border-radius: 18px;
+    }
+
+
+    .admin-avatar {
+        width: 42px;
+
+        height: 42px;
+
+        border-radius: 50%;
+
+        background: #d8e3c7;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 22px;
+    }
+
+
+    .admin-user strong {
+        display: block;
+
+        color: #596b3d;
+    }
+
+
+    .admin-user span {
+        font-size: 12px;
+
+        color: #947f91;
+    }
+
+
+    .logout-button {
+        border: none;
+
+        background: transparent;
+
+        color: #a35c70;
+
+        cursor: pointer;
+
+        font-family: inherit;
+
+        font-size: 12px;
+
+        margin-left: 5px;
+    }
+
+
+    main {
+        width: min(1180px, 94%);
+
+        margin: 35px auto 60px;
+    }
+
+
+    .welcome {
+        background:
+            rgba(255,255,255,.91);
+
+        border-radius: 28px;
+
+        border:
+            2px solid
+            rgba(241,210,118,.7);
+
+        padding: 30px;
+
+        box-shadow:
+            0 15px 35px
+            rgba(93,74,95,.13);
+
+        margin-bottom: 25px;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    .welcome h2 {
+        color: #596b3d;
+
+        font-size: 28px;
+
+        margin-bottom: 8px;
+    }
+
+
+    .welcome p {
+        color: #756778;
+
+        line-height: 1.7;
+    }
+
+
+    .welcome .mini-flor {
+        position: absolute;
+
+        right: 25px;
+
+        top: 18px;
+
+        font-size: 45px;
+
+        opacity: .45;
+    }
+
+
+    /* =========================================
+       ESTADÍSTICAS
+    ========================================= */
+
+    .stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 18px;
+
+        margin-bottom: 28px;
+    }
+
+
+    .stat-card {
+        background:
+            rgba(255,255,255,.92);
+
+        border-radius: 22px;
+
+        padding: 22px;
+
+        border:
+            1px solid
+            rgba(224,201,133,.8);
+
+        box-shadow:
+            0 10px 25px
+            rgba(93,74,95,.1);
+    }
+
+
+    .stat-icon {
+        font-size: 28px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .stat-card h3 {
+        font-size: 13px;
+
+        font-weight: 500;
+
+        color: #927b8e;
+
+        margin-bottom: 4px;
+    }
+
+
+    .stat-number {
+        font-size: 31px;
+
+        color: #596b3d;
+
+        font-weight: 700;
+    }
+
+
+    /* =========================================
+       SECCIONES
+    ========================================= */
+
+    .section-card {
+        background:
+            rgba(255,255,255,.92);
+
+        border-radius: 26px;
+
+        padding: 28px;
+
+        margin-bottom: 25px;
+
+        border:
+            1px solid
+            rgba(224,201,133,.8);
+
+        box-shadow:
+            0 12px 30px
+            rgba(93,74,95,.1);
+    }
+
+
+    .section-title {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .section-title h2 {
+        color: #596b3d;
+
+        font-size: 23px;
+    }
+
+
+    .section-title span {
+        color: #a0809d;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================================
+       PEDIDOS
+    ========================================= */
+
+    #pedidosContainer {
+        display: grid;
+
+        gap: 15px;
+    }
+
+
+    .pedido-card {
+        border:
+            1px solid #ead9b5;
+
+        background: #fffdf7;
+
+        border-radius: 20px;
+
+        padding: 20px;
+
+        display: grid;
+
+        grid-template-columns:
+            1fr auto;
+
+        gap: 15px;
+
+        align-items: center;
+
+        transition: .2s;
+    }
+
+
+    .pedido-card:hover {
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 7px 20px
+            rgba(105,82,105,.1);
+    }
+
+
+    .pedido-top {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        margin-bottom: 7px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .pedido-numero {
+        color: #596b3d;
+
+        font-weight: 700;
+    }
+
+
+    .estado {
+        display: inline-block;
+
+        padding: 5px 11px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+
+        background: #f8d9e4;
+
+        color: #9b526d;
+    }
+
+
+    .pedido-nombre {
+        font-size: 18px;
+
+        color: #665669;
+
+        margin-bottom: 6px;
+    }
+
+
+    .pedido-info {
+        color: #8b7b88;
+
+        font-size: 13px;
+
+        line-height: 1.7;
+    }
+
+
+    .pedido-precio {
+        margin-top: 6px;
+
+        color: #596b3d;
+
+        font-weight: 700;
+    }
+
+
+    .ver-button {
+        border: none;
+
+        background: #f1d276;
+
+        color: #67582e;
+
+        padding: 11px 17px;
+
+        border-radius: 14px;
+
+        cursor: pointer;
+
+        font-family: inherit;
+
+        font-weight: 600;
+
+        transition: .2s;
+    }
+
+
+    .ver-button:hover {
+        background: #f6df98;
+
+        transform:
+            translateY(-1px);
+    }
+
+
+    .empty {
+        text-align: center;
+
+        padding: 35px 15px;
+
+        color: #927f90;
+    }
+
+
+    .error-box {
+        background: #f8e0e5;
+
+        border:
+            1px solid #e6bac6;
+
+        color: #a25769;
+
+        padding: 16px;
+
+        border-radius: 15px;
+
+        line-height: 1.6;
+    }
+
+
+    /* =========================================
+       COBROS
+    ========================================= */
+
+    .cobros-resumen {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .cobro-box {
+        padding: 18px;
+
+        border-radius: 18px;
+
+        background: #fff9e9;
+
+        border:
+            1px solid #ead9a7;
+    }
+
+
+    .cobro-box h3 {
+        font-size: 13px;
+
+        color: #917d8c;
+
+        margin-bottom: 7px;
+    }
+
+
+    .cobro-box strong {
+        font-size: 23px;
+
+        color: #596b3d;
+    }
+
+
+    /* =========================================
+       DETALLE
+    ========================================= */
+
+    #detallePedido {
+        display: none;
+    }
+
+
+    #detallePedido.activo {
+        display: block;
+    }
+
+
+    #panelPrincipal.oculto {
+        display: none;
+    }
+
+
+    .volver {
+        border: none;
+
+        background: transparent;
+
+        color: #806070;
+
+        font-family: inherit;
+
+        cursor: pointer;
+
+        font-size: 15px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .detalle-header {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .detalle-header h2 {
+        color: #596b3d;
+
+        font-size: 28px;
+    }
+
+
+    .detalle-header p {
+        color: #927f90;
+
+        margin-top: 5px;
+    }
+
+
+    .detalle-grid {
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 18px;
+    }
+
+
+    .dato {
+        background: #fffdf7;
+
+        border:
+            1px solid #ead9b5;
+
+        border-radius: 18px;
+
+        padding: 17px;
+    }
+
+
+    .dato.full {
+        grid-column: 1 / -1;
+    }
+
+
+    .dato label {
+        display: block;
+
+        font-size: 12px;
+
+        color: #9a8594;
+
+        margin-bottom: 7px;
+    }
+
+
+    .dato strong,
+    .dato p {
+        color: #665669;
+
+        line-height: 1.6;
+
+        word-break: break-word;
+    }
+
+
+    /* =========================================
+       IMAGEN
+    ========================================= */
+
+    .imagen-referencia {
+        grid-column: 1 / -1;
+
+        background: #fffdf7;
+
+        border:
+            1px solid #ead9b5;
+
+        border-radius: 18px;
+
+        padding: 17px;
+    }
+
+
+    .imagen-referencia label {
+        display: block;
+
+        font-size: 12px;
+
+        color: #9a8594;
+
+        margin-bottom: 10px;
+    }
+
+
+    .imagen-referencia img {
+        display: block;
+
+        max-width: 100%;
+
+        max-height: 500px;
+
+        margin: 5px auto 0;
+
+        border-radius: 15px;
+
+        border:
+            1px solid #ead9b5;
+
+        object-fit: contain;
+
+        background: white;
+    }
+
+
+    .imagen-referencia a {
+        display: inline-block;
+
+        margin-top: 12px;
+
+        color: #806070;
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+
+    .imagen-referencia a:hover {
+        text-decoration: underline;
+    }
+
+
+    /* =========================================
+       PRECIO
+    ========================================= */
+
+    .precio-section {
+        margin-top: 25px;
+
+        background: #fff9e9;
+
+        border:
+            2px solid #f0d77e;
+
+        border-radius: 22px;
+
+        padding: 23px;
+    }
+
+
+    .precio-section h3 {
+        color: #596b3d;
+
+        margin-bottom: 6px;
+    }
+
+
+    .precio-section p {
+        color: #897788;
+
+        font-size: 13px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .precio-row {
+        display: flex;
+
+        gap: 10px;
+    }
+
+
+    #campoPrecio {
+        flex: 1;
+
+        padding: 13px;
+
+        border:
+            1px solid #dccda5;
+
+        border-radius: 13px;
+
+        outline: none;
+
+        font-family: inherit;
+
+        font-size: 16px;
+    }
+
+
+    .guardar-precio {
+        border: none;
+
+        background: #596b3d;
+
+        color: white;
+
+        border-radius: 13px;
+
+        padding: 13px 18px;
+
+        cursor: pointer;
+
+        font-family: inherit;
+    }
+
+
+    #precioGuardado {
+        margin-top: 10px;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================================
+       COBRO DETALLE
+    ========================================= */
+
+    .cobro-section {
+        margin-top: 20px;
+
+        background: #fff;
+
+        border:
+            1px solid #e3d4c4;
+
+        border-radius: 22px;
+
+        padding: 23px;
+    }
+
+
+    .cobro-section h3 {
+        color: #596b3d;
+
+        margin-bottom: 12px;
+    }
+
+
+    .cobro-buttons {
+        display: flex;
+
+        gap: 10px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .cobro-btn {
+        border: none;
+
+        padding: 11px 16px;
+
+        border-radius: 13px;
+
+        cursor: pointer;
+
+        font-family: inherit;
+    }
+
+
+    .cobrado-btn {
+        background: #d9e7c9;
+
+        color: #596b3d;
+    }
+
+
+    .pendiente-btn {
+        background: #f8d9e4;
+
+        color: #9b526d;
+    }
+
+
+    #estadoCobro {
+        margin-top: 13px;
+
+        font-size: 14px;
+    }
+
+
+    .cobrado {
+        color: #596b3d;
+    }
+
+
+    .pendiente {
+        color: #a25769;
+    }
+
+
+    /* =========================================
+       ESTADO PEDIDO
+    ========================================= */
+
+    .estado-section {
+        margin-top: 20px;
+
+        background: #fff;
+
+        border:
+            1px solid #e3d4c4;
+
+        border-radius: 22px;
+
+        padding: 23px;
+    }
+
+
+    .estado-section h3 {
+        color: #596b3d;
+
+        margin-bottom: 15px;
+    }
+
+
+    .estado-buttons {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+
+    .estado-btn {
+        border: none;
+
+        padding: 10px 14px;
+
+        border-radius: 12px;
+
+        cursor: pointer;
+
+        font-family: inherit;
+
+        font-size: 13px;
+    }
+
+
+    .estado-nuevo {
+        background: #f8d9e4;
+
+        color: #9b526d;
+    }
+
+
+    .estado-confirmado {
+        background: #eadff0;
+
+        color: #806070;
+    }
+
+
+    .estado-preparacion {
+        background: #f5dc91;
+
+        color: #806020;
+    }
+
+
+    .estado-listo {
+        background: #d9e7c9;
+
+        color: #596b3d;
+    }
+
+
+    .estado-entregado {
+        background: #cfe3d1;
+
+        color: #4d7252;
+    }
+
+
+    #mensajeEstado {
+        margin-top: 12px;
+
+        font-size: 13px;
+
+        color: #596b3d;
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 850px) {
+
+        .stats {
+            grid-template-columns:
+                repeat(2,1fr);
+        }
+
+
+        .cobros-resumen {
+            grid-template-columns: 1fr;
+        }
+
+
+        .detalle-grid {
+            grid-template-columns: 1fr;
+        }
+
+
+        .dato.full {
+            grid-column: auto;
+        }
+
+
+        .imagen-referencia {
+            grid-column: auto;
+        }
+
+
+        .header-content {
+            flex-direction: column;
+
+            align-items: flex-start;
+        }
+
+
+        .admin-user {
+            width: 100%;
+
+            justify-content:
+                space-between;
+        }
+
+    }
+
+
+    @media (max-width: 560px) {
+
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+
+        .pedido-card {
+            grid-template-columns: 1fr;
+        }
+
+
+        .ver-button {
+            width: 100%;
+        }
+
+
+        .precio-row {
+            flex-direction: column;
+        }
+
+
+        .brand h1 {
+            font-size: 45px;
+        }
+
+
+        .section-card,
+        .welcome {
+            padding: 20px;
+        }
+
+
+        .login-card {
+            padding: 32px 22px;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- =========================================
+     DECORACIONES
+========================================= -->
+
+<div class="luces">
+
+    <span class="luz"></span>
+    <span class="luz"></span>
+    <span class="luz"></span>
+    <span class="luz"></span>
+    <span class="luz"></span>
+    <span class="luz"></span>
+    <span class="luz"></span>
+    <span class="luz"></span>
+
+</div>
+
+
+<div class="hojas">
+
+    <span class="hoja">🍃</span>
+    <span class="hoja">🌿</span>
+    <span class="hoja">🍃</span>
+    <span class="hoja">🌿</span>
+    <span class="hoja">🍃</span>
+
+</div>
+
+
+<div class="flores-decoracion">
+
+    <span class="flor-decorativa">🌷</span>
+    <span class="flor-decorativa">✿</span>
+    <span class="flor-decorativa">🌸</span>
+    <span class="flor-decorativa">✿</span>
+
+</div>
+
+
+<!-- =========================================
+     LOGIN
+========================================= -->
+
+<section id="loginScreen">
+
+    <div class="login-card">
+
+        <div class="login-flor">
+            🌷
+        </div>
+
+
+        <div class="login-title">
+            MAKILÚ
+        </div>
+
+
+        <div class="login-subtitle">
+            Panel privado de administración
+        </div>
+
+
+        <div class="login-divider"></div>
+
+
+        <p class="login-text">
+            Este espacio es únicamente para la administración
+            de los pedidos de MAKILÚ.
+        </p>
+
+
+        <form id="loginForm">
+
+            <div class="password-wrapper">
+
+                <label for="passwordInput">
+                    Contraseña de Kiara
+                </label>
+
+
+                <input
+                    type="password"
+                    id="passwordInput"
+                    placeholder="Escribe tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton"
+            >
+                🌷 Entrar al panel
+            </button>
+
+        </form>
+
+
+        <div
+            id="loginLoading"
+            class="login-loading"
+        >
+            ✨ Verificando acceso...
+        </div>
+
+
+        <div
+            id="loginError"
+            class="login-error"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     PANEL ADMINISTRATIVO
+========================================= -->
+
+<div id="adminPanel">
+
+
+    <header>
+
+        <div class="header-content">
+
+
+            <div class="brand">
+
+                <h1>
+                    MAKILÚ
+                </h1>
+
+
+                <p>
+                    Panel privado de administración
+                </p>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <div class="admin-avatar">
+                    🌷
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Kiara
+                    </strong>
+
+                    <span>
+                        Administradora
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="logout-button"
+                    onclick="cerrarSesion()"
+                >
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+
+        <div id="panelPrincipal">
+
+
+            <section class="welcome">
+
+                <div class="mini-flor">
+                    ✿
+                </div>
+
+
+                <h2>
+                    Bienvenida, Kiara 🌷
+                </h2>
+
+
+                <p>
+                    Aquí puedes revisar los pedidos de tus clientes,
+                    agregar sus precios, controlar los cobros y
+                    actualizar el estado de cada pedido.
+                </p>
+
+            </section>
+
+
+            <section class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🌷
+                    </div>
+
+                    <h3>
+                        Total de pedidos
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="totalPedidos"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🌸
+                    </div>
+
+                    <h3>
+                        Pedidos nuevos
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="pedidosNuevos"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <h3>
+                        Pendiente de cobro
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="totalPendiente"
+                    >
+                        ₡0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✨
+                    </div>
+
+                    <h3>
+                        Cobrado
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="totalCobrado"
+                    >
+                        ₡0
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="section-card">
+
+
+                <div class="section-title">
+
+                    <h2>
+                        🌷 Pedidos recientes
+                    </h2>
+
+
+                    <span id="contadorPedidos">
+                        Cargando...
+                    </span>
+
+                </div>
+
+
+                <div id="pedidosContainer">
+
+                    <div class="empty">
+                        ✨ Cargando pedidos...
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="section-card">
+
+
+                <div class="section-title">
+
+                    <h2>
+                        💰 Control de cobros
+                    </h2>
+
+
+                    <span>
+                        Resumen de pedidos
+                    </span>
+
+                </div>
+
+
+                <div class="cobros-resumen">
+
+
+                    <div class="cobro-box">
+
+                        <h3>
+                            Total pendiente
+                        </h3>
+
+                        <strong id="resumenPendiente">
+                            ₡0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cobro-box">
+
+                        <h3>
+                            Total cobrado
+                        </h3>
+
+                        <strong id="resumenCobrado">
+                            ₡0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cobro-box">
+
+                        <h3>
+                            Pedidos cobrados
+                        </h3>
+
+                        <strong id="resumenPedidosCobrados">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div id="cobrosLista"></div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =========================================
+             DETALLE DEL PEDIDO
+        ========================================= -->
+
+        <div id="detallePedido">
+
+
+            <button
+                class="volver"
+                onclick="volverPedidos()"
+            >
+                ← Volver a pedidos
+            </button>
+
+
+            <section class="section-card">
+
+
+                <div class="detalle-header">
+
+
+                    <div>
+
+                        <h2 id="detalleTitulo">
+                            Pedido
+                        </h2>
+
+
+                        <p id="detalleFecha">
+                            —
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="estado"
+                        id="estadoDetalle"
+                    >
+                        Nuevo
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="detalle-grid"
+                    id="detalleContenido"
+                ></div>
+
+
+                <!-- PRECIO -->
+
+                <div class="precio-section">
+
+                    <h3>
+                        💰 Agregar el precio del pedido
+                    </h3>
+
+
+                    <p>
+                        El precio no se muestra automáticamente.
+                        Aquí puedes agregar o actualizar el precio
+                        después de revisar todos los detalles.
+                    </p>
+
+
+                    <div class="precio-row">
+
+                        <input
+                            type="number"
+                            id="campoPrecio"
+                            min="0"
+                            step="1"
+                            placeholder="Ejemplo: 8500"
+                        >
+
+
+                        <button
+                            class="guardar-precio"
+                            onclick="guardarPrecio()"
+                        >
+                            Guardar precio
+                        </button>
+
+                    </div>
+
+
+                    <div id="precioGuardado"></div>
+
+                </div>
+
+
+                <!-- COBRO -->
+
+                <div class="cobro-section">
+
+                    <h3>
+                        💳 Control del cobro
+                    </h3>
+
+
+                    <div class="cobro-buttons">
+
+
+                        <button
+                            class="cobro-btn cobrado-btn"
+                            onclick="marcarCobro('Cobrado')"
+                        >
+                            ✓ Marcar como cobrado
+                        </button>
+
+
+                        <button
+                            class="cobro-btn pendiente-btn"
+                            onclick="marcarCobro('Pendiente')"
+                        >
+                            ⏳ Marcar pendiente
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="estadoCobro"
+                        class="pendiente"
+                    >
+                        ⏳ Este pedido está pendiente de cobro.
+                    </div>
+
+                </div>
+
+
+                <!-- ESTADO -->
+
+                <div class="estado-section">
+
+                    <h3>
+                        🌷 Estado del pedido
+                    </h3>
+
+
+                    <div class="estado-buttons">
+
+
+                        <button
+                            class="estado-btn estado-nuevo"
+                            onclick="cambiarEstado('Nuevo')"
+                        >
+                            Nuevo
+                        </button>
+
+
+                        <button
+                            class="estado-btn estado-confirmado"
+                            onclick="cambiarEstado('Confirmado')"
+                        >
+                            Confirmado
+                        </button>
+
+
+                        <button
+                            class="estado-btn estado-preparacion"
+                            onclick="cambiarEstado('En preparación')"
+                        >
+                            En preparación
+                        </button>
+
+
+                        <button
+                            class="estado-btn estado-listo"
+                            onclick="cambiarEstado('Listo')"
+                        >
+                            Listo
+                        </button>
+
+
+                        <button
+                            class="estado-btn estado-entregado"
+                            onclick="cambiarEstado('Entregado')"
+                        >
+                            Entregado
+                        </button>
+
+                    </div>
+
+
+                    <div id="mensajeEstado"></div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+    /* =========================================
+       SUPABASE
+    ========================================= */
+
+    const SUPABASE_URL =
+        "https://eoqzhqrcnnlyaohpfelr.supabase.co";
+
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_ZW2roWovw_k4SRyJstNzpQ_ADrDVlet";
+
+
+    const KIARA_EMAIL =
+        "vargasrobvalen29@gmail.com";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+
+    /* =========================================
+       VARIABLES
+    ========================================= */
+
+    let pedidos = [];
+
+    let pedidoActual = null;
+
+    let sesionActual = null;
+
+
+    /* =========================================
+       ELEMENTOS
+    ========================================= */
+
+    const loginScreen =
+        document.getElementById(
+            "loginScreen"
+        );
+
+
+    const adminPanel =
+        document.getElementById(
+            "adminPanel"
+        );
+
+
+    const loginForm =
+        document.getElementById(
+            "loginForm"
+        );
+
+
+    const passwordInput =
+        document.getElementById(
+            "passwordInput"
+        );
+
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    const loginError =
+        document.getElementById(
+            "loginError"
+        );
+
+
+    const loginLoading =
+        document.getElementById(
+            "loginLoading"
+        );
+
+
+    /* =========================================
+       ERROR
+    ========================================= */
+
+    function mostrarErrorLogin(
+        mensaje
+    ) {
+
+        loginError.textContent =
+            mensaje;
+
+        loginError.style.display =
+            "block";
+
+    }
+
+
+    function ocultarErrorLogin() {
+
+        loginError.textContent =
+            "";
+
+        loginError.style.display =
+            "none";
+
+    }
+
+
+    /* =========================================
+       LOGIN
+    ========================================= */
+
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            ocultarErrorLogin();
+
+
+            const password =
+                passwordInput.value.trim();
+
+
+            if (!password) {
+
+                mostrarErrorLogin(
+                    "🌷 Escribe tu contraseña para continuar."
+                );
+
+                return;
+            }
+
+
+            loginButton.disabled =
+                true;
+
+
+            loginButton.textContent =
+                "✨ Verificando...";
+
+
+            loginLoading.style.display =
+                "block";
+
+
+            try {
+
+                const resultado =
+                    await supabaseClient
+                        .auth
+                        .signInWithPassword({
+
+                            email:
+                                KIARA_EMAIL,
+
+                            password:
+                                password
+
+                        });
+
+
+                if (resultado.error) {
+
+                    console.error(
+                        "Error de inicio de sesión:",
+                        resultado.error
+                    );
+
+
+                    mostrarErrorLogin(
+                        "🌷 La contraseña no es correcta o no se pudo iniciar sesión."
+                    );
+
+
+                    passwordInput.value =
+                        "";
+
+
+                    return;
+                }
+
+
+                sesionActual =
+                    resultado.data.session;
+
+
+                if (!sesionActual) {
+
+                    mostrarErrorLogin(
+                        "🌷 No se pudo crear la sesión."
+                    );
+
+                    return;
+                }
+
+
+                const perfil =
+                    await supabaseClient
+                        .from("perfiles")
+                        .select(
+                            "id, rol, nombre"
+                        )
+                        .eq(
+                            "id",
+                            sesionActual
+                                .user
+                                .id
+                        )
+                        .maybeSingle();
+
+
+                if (perfil.error) {
+
+                    console.error(
+                        "Error leyendo perfil:",
+                        perfil.error
+                    );
+
+
+                    await supabaseClient
+                        .auth
+                        .signOut();
+
+
+                    mostrarErrorLogin(
+                        "🌷 No se pudo comprobar el perfil de administradora."
+                    );
+
+
+                    return;
+                }
+
+
+                if (
+                    !perfil.data ||
+                    perfil.data.rol !==
+                    "admin"
+                ) {
+
+                    await supabaseClient
+                        .auth
+                        .signOut();
+
+
+                    mostrarErrorLogin(
+                        "🌷 Esta cuenta no tiene permisos de administradora."
+                    );
+
+
+                    return;
+                }
+
+
+                loginScreen.style.display =
+                    "none";
+
+
+                adminPanel.style.display =
+                    "block";
+
+
+                passwordInput.value =
+                    "";
+
+
+                await cargarPedidos();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error inesperado:",
+                    error
+                );
+
+
+                mostrarErrorLogin(
+                    "🌷 Ocurrió un error inesperado: " +
+                    error.message
+                );
+
+
+            } finally {
+
+                loginButton.disabled =
+                    false;
+
+
+                loginButton.textContent =
+                    "🌷 Entrar al panel";
+
+
+                loginLoading.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    /* =========================================
+       CARGAR PEDIDOS
+    ========================================= */
+
+    async function cargarPedidos() {
+
+        const container =
+            document.getElementById(
+                "pedidosContainer"
+            );
+
+
+        container.innerHTML = `
+            <div class="empty">
+                ✨ Cargando pedidos...
+            </div>
+        `;
+
+
+        try {
+
+            const resultado =
+                await supabaseClient
+                    .from("pedidos")
+                    .select("*")
+                    .order(
+                        "creado_en",
+                        {
+                            ascending:
+                                false
+                        }
+                    );
+
+
+            if (resultado.error) {
+
+                console.error(
+                    "Error cargando pedidos:",
+                    resultado.error
+                );
+
+
+                container.innerHTML = `
+                    <div class="error-box">
+                        🌷 Ocurrió un error al cargar los pedidos.
+                        <br><br>
+                        <strong>Mensaje:</strong>
+                        ${escaparHTML(
+                            resultado.error.message
+                        )}
+                    </div>
+                `;
+
+
+                return;
+            }
+
+
+            pedidos =
+                resultado.data || [];
+
+
+            actualizarEstadisticas();
+
+            mostrarPedidos();
+
+            mostrarCobros();
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            container.innerHTML = `
+                <div class="error-box">
+                    🌷 Ocurrió un error inesperado.
+                    <br><br>
+                    <strong>Mensaje:</strong>
+                    ${escaparHTML(
+                        error.message
+                    )}
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    /* =========================================
+       ESTADÍSTICAS
+    ========================================= */
+
+    function actualizarEstadisticas() {
+
+        const total =
+            pedidos.length;
+
+
+        const nuevos =
+            pedidos.filter(
+                pedido =>
+                    !pedido.estado ||
+                    pedido.estado ===
+                        "Nuevo"
+            ).length;
+
+
+        let pendiente = 0;
+
+        let cobrado = 0;
+
+        let pedidosCobrados = 0;
+
+
+        pedidos.forEach(
+            pedido => {
+
+                const precio =
+                    Number(
+                        pedido.precio ||
+                        0
+                    );
+
+
+                if (
+                    pedido.estado_cobro ===
+                    "Cobrado"
+                ) {
+
+                    cobrado +=
+                        precio;
+
+                    pedidosCobrados++;
+
+                } else {
+
+                    pendiente +=
+                        precio;
+
+                }
+
+            }
+        );
+
+
+        document.getElementById(
+            "totalPedidos"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "pedidosNuevos"
+        ).textContent =
+            nuevos;
+
+
+        document.getElementById(
+            "totalPendiente"
+        ).textContent =
+            formatearPrecio(
+                pendiente
+            );
+
+
+        document.getElementById(
+            "totalCobrado"
+        ).textContent =
+            formatearPrecio(
+                cobrado
+            );
+
+
+        document.getElementById(
+            "resumenPendiente"
+        ).textContent =
+            formatearPrecio(
+                pendiente
+            );
+
+
+        document.getElementById(
+            "resumenCobrado"
+        ).textContent =
+            formatearPrecio(
+                cobrado
+            );
+
+
+        document.getElementById(
+            "resumenPedidosCobrados"
+        ).textContent =
+            pedidosCobrados;
+
+
+        document.getElementById(
+            "contadorPedidos"
+        ).textContent =
+            total === 1
+                ? "1 pedido"
+                : `${total} pedidos`;
+
+    }
+
+
+    /* =========================================
+       MOSTRAR PEDIDOS
+    ========================================= */
+
+    function mostrarPedidos() {
+
+        const container =
+            document.getElementById(
+                "pedidosContainer"
+            );
+
+
+        if (!pedidos.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    🌷 Todavía no hay pedidos registrados.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            pedidos
+                .map(
+                    (
+                        pedido,
+                        indice
+                    ) => {
+
+                        const numero =
+                            obtenerNumeroPedido(
+                                pedido,
+                                indice
+                            );
+
+
+                        const nombre =
+                            `${
+                                pedido.cliente_nombre ||
+                                ""
+                            } ${
+                                pedido.cliente_apellido ||
+                                ""
+                            }`
+                                .trim() ||
+                            "Cliente";
+
+
+                        const estado =
+                            pedido.estado ||
+                            "Nuevo";
+
+
+                        const flores =
+                            pedido.cantidad_flores ||
+                            0;
+
+
+                        const colores =
+                            pedido.colores ||
+                            "No especificado";
+
+
+                        const precio =
+                            Number(
+                                pedido.precio ||
+                                0
+                            );
+
+
+                        return `
+
+                            <div class="pedido-card">
+
+                                <div>
+
+                                    <div class="pedido-top">
+
+                                        <span class="pedido-numero">
+                                            Pedido #${numero}
+                                        </span>
+
+                                        <span class="estado">
+                                            ${escaparHTML(
+                                                estado
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="pedido-nombre">
+                                        ${escaparHTML(
+                                            nombre
+                                        )}
+                                    </div>
+
+
+                                    <div class="pedido-info">
+
+                                        🌷 ${flores} flores
+
+                                        <br>
+
+                                        🎨 ${escaparHTML(
+                                            colores
+                                        )}
+
+                                        ${
+                                            precio > 0
+                                                ? `
+                                                    <div class="pedido-precio">
+                                                        💰 ${formatearPrecio(
+                                                            precio
+                                                        )}
+                                                    </div>
+                                                `
+                                                : `
+                                                    <div class="pedido-precio">
+                                                        💰 Precio pendiente
+                                                    </div>
+                                                `
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    class="ver-button"
+                                    onclick="verPedido(${indice})"
+                                >
+                                    Ver pedido completo
+                                </button>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+    /* =========================================
+       COBROS
+    ========================================= */
+
+    function mostrarCobros() {
+
+        const container =
+            document.getElementById(
+                "cobrosLista"
+            );
+
+
+        if (!pedidos.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    🌷 No hay pedidos para mostrar.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            pedidos
+                .map(
+                    (
+                        pedido,
+                        indice
+                    ) => {
+
+                        const nombre =
+                            `${
+                                pedido.cliente_nombre ||
+                                ""
+                            } ${
+                                pedido.cliente_apellido ||
+                                ""
+                            }`
+                                .trim() ||
+                            "Cliente";
+
+
+                        const precio =
+                            Number(
+                                pedido.precio ||
+                                0
+                            );
+
+
+                        const cobro =
+                            pedido.estado_cobro ===
+                            "Cobrado";
+
+
+                        return `
+
+                            <div
+                                class="pedido-card"
+                                style="margin-bottom:12px;"
+                            >
+
+                                <div>
+
+                                    <div class="pedido-nombre">
+                                        ${escaparHTML(
+                                            nombre
+                                        )}
+                                    </div>
+
+
+                                    <div class="pedido-info">
+
+                                        Pedido #${obtenerNumeroPedido(
+                                            pedido,
+                                            indice
+                                        )}
+
+                                        <br>
+
+                                        ${
+                                            precio > 0
+                                                ? formatearPrecio(
+                                                    precio
+                                                )
+                                                : "Precio pendiente"
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span
+                                        class="estado"
+                                        style="
+                                            display:block;
+                                            margin-bottom:8px;
+                                            text-align:center;
+                                            background:${
+                                                cobro
+                                                    ? "#d9e7c9"
+                                                    : "#f8d9e4"
+                                            };
+                                            color:${
+                                                cobro
+                                                    ? "#596b3d"
+                                                    : "#9b526d"
+                                            };
+                                        "
+                                    >
+                                        ${
+                                            cobro
+                                                ? "✓ Cobrado"
+                                                : "⏳ Pendiente"
+                                        }
+                                    </span>
+
+
+                                    <button
+                                        class="ver-button"
+                                        onclick="verPedido(${indice})"
+                                    >
+                                        Ver
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+    /* =========================================
+       VER PEDIDO
+    ========================================= */
+
+    function verPedido(
+        indice
+    ) {
+
+        pedidoActual =
+            pedidos[indice];
+
+
+        if (!pedidoActual) {
+            return;
+        }
+
+
+        document
+            .getElementById(
+                "panelPrincipal"
+            )
+            .classList
+            .add(
+                "oculto"
+            );
+
+
+        document
+            .getElementById(
+                "detallePedido"
+            )
+            .classList
+            .add(
+                "activo"
+            );
+
+
+        cargarDetalle();
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================================
+       CARGAR DETALLE
+    ========================================= */
+
+    async function cargarDetalle() {
+
+        const pedido =
+            pedidoActual;
+
+
+        const nombre =
+            `${
+                pedido.cliente_nombre ||
+                ""
+            } ${
+                pedido.cliente_apellido ||
+                ""
+            }`
+                .trim() ||
+            "Cliente";
+
+
+        const numero =
+            obtenerNumeroPedido(
+                pedido,
+                pedidos.indexOf(
+                    pedido
+                )
+            );
+
+
+        document.getElementById(
+            "detalleTitulo"
+        ).textContent =
+            `Pedido #${numero}`;
+
+
+        document.getElementById(
+            "detalleFecha"
+        ).textContent =
+            formatearFecha(
+                pedido.creado_en
+            );
+
+
+        document.getElementById(
+            "estadoDetalle"
+        ).textContent =
+            pedido.estado ||
+            "Nuevo";
+
+
+        aplicarColorEstado(
+            pedido.estado ||
+            "Nuevo"
+        );
+
+
+        document.getElementById(
+            "detalleContenido"
+        ).innerHTML = `
+
+            <div class="dato">
+
+                <label>
+                    Cliente
+                </label>
+
+                <strong>
+                    ${escaparHTML(
+                        nombre
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Teléfono
+                </label>
+
+                <strong>
+                    ${escaparHTML(
+                        pedido.telefono ||
+                        "No indicado"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Cantidad de flores
+                </label>
+
+                <strong>
+                    ${
+                        pedido.cantidad_flores ||
+                        0
+                    }
+                </strong>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Colores
+                </label>
+
+                <strong>
+                    ${escaparHTML(
+                        pedido.colores ||
+                        "No especificado"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Forma de pago
+                </label>
+
+                <strong>
+                    ${escaparHTML(
+                        pedido.pago ||
+                        "No especificado"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Lugar de entrega
+                </label>
+
+                <strong>
+                    ${escaparHTML(
+                        pedido.lugar_entrega ||
+                        "No especificado"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Extras
+                </label>
+
+                <p>
+                    ${escaparHTML(
+                        pedido.extras ||
+                        "Ninguno"
+                    )}
+                </p>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Personalizado
+                </label>
+
+                <p>
+                    ${escaparHTML(
+                        pedido.personalizado ||
+                        "No"
+                    )}
+                </p>
+
+            </div>
+
+
+            <div class="dato">
+
+                <label>
+                    Tema
+                </label>
+
+                <p>
+                    ${escaparHTML(
+                        pedido.tema ||
+                        "No especificado"
+                    )}
+                </p>
+
+            </div>
+
+
+            <div class="dato full">
+
+                <label>
+                    Notita
+                </label>
+
+                <p>
+
+                    ${
+                        pedido.notita ===
+                        "Sí"
+
+                            ? escaparHTML(
+                                pedido.mensaje_notita ||
+                                "Sí, pero no se escribió mensaje."
+                            )
+
+                            : "No"
+                    }
+
+                </p>
+
+            </div>
+
+        `;
+
+
+        if (
+            pedido.imagen_referencia
+        ) {
+
+            const contenedor =
+                document.getElementById(
+                    "detalleContenido"
+                );
+
+
+            const bloqueImagen =
+                document.createElement(
+                    "div"
+                );
+
+
+            bloqueImagen.className =
+                "imagen-referencia";
+
+
+            bloqueImagen.innerHTML = `
+
+                <label>
+                    🖼️ Imagen de referencia
+                </label>
+
+                <div
+                    style="text-align:center;"
+                >
+                    ✨ Cargando imagen...
+                </div>
+
+            `;
+
+
+            contenedor.appendChild(
+                bloqueImagen
+            );
+
+
+            try {
+
+                const resultado =
+                    await supabaseClient
+                        .storage
+                        .from(
+                            "imagenes-pedidos"
+                        )
+                        .createSignedUrl(
+                            pedido.imagen_referencia,
+                            3600
+                        );
+
+
+                if (
+                    resultado.error
+                ) {
+
+                    console.error(
+                        "Error creando URL de imagen:",
+                        resultado.error
+                    );
+
+
+                    bloqueImagen.innerHTML = `
+
+                        <label>
+                            🖼️ Imagen de referencia
+                        </label>
+
+                        <p
+                            style="color:#a25769;"
+                        >
+                            🌷 No se pudo cargar la imagen.
+                        </p>
+
+                    `;
+
+                } else if (
+                    resultado.data &&
+                    resultado.data.signedUrl
+                ) {
+
+                    const url =
+                        resultado
+                            .data
+                            .signedUrl;
+
+
+                    bloqueImagen.innerHTML = `
+
+                        <label>
+                            🖼️ Imagen de referencia
+                        </label>
+
+
+                        <img
+                            src="${escaparHTML(
+                                url
+                            )}"
+                            alt="Imagen de referencia del pedido"
+                        >
+
+
+                        <div
+                            style="text-align:center;"
+                        >
+
+                            <a
+                                href="${escaparHTML(
+                                    url
+                                )}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                ✨ Abrir imagen
+                            </a>
+
+                        </div>
+
+                    `;
+
+                } else {
+
+                    bloqueImagen.innerHTML = `
+
+                        <label>
+                            🖼️ Imagen de referencia
+                        </label>
+
+                        <p
+                            style="color:#a25769;"
+                        >
+                            🌷 No se encontró la imagen.
+                        </p>
+
+                    `;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error cargando imagen:",
+                    error
+                );
+
+
+                bloqueImagen.innerHTML = `
+
+                    <label>
+                        🖼️ Imagen de referencia
+                    </label>
+
+                    <p
+                        style="color:#a25769;"
+                    >
+                        🌷 Ocurrió un error al cargar la imagen.
+                    </p>
+
+                `;
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "campoPrecio"
+        ).value =
+            pedido.precio ||
+            "";
+
+
+        actualizarTextoPrecio();
+
+
+        const estadoCobro =
+            pedido.estado_cobro ||
+            "Pendiente";
+
+
+        if (
+            estadoCobro ===
+            "Cobrado"
+        ) {
+
+            marcarCobroVisual(
+                "Cobrado"
+            );
+
+        } else {
+
+            marcarCobroVisual(
+                "Pendiente"
+            );
+
+        }
+
+
+        document.getElementById(
+            "mensajeEstado"
+        ).textContent =
+            "";
+
+    }
+
+
+    /* =========================================
+       VOLVER
+    ========================================= */
+
+    function volverPedidos() {
+
+        document
+            .getElementById(
+                "detallePedido"
+            )
+            .classList
+            .remove(
+                "activo"
+            );
+
+
+        document
+            .getElementById(
+                "panelPrincipal"
+            )
+            .classList
+            .remove(
+                "oculto"
+            );
+
+
+        pedidoActual =
+            null;
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================================
+       GUARDAR PRECIO
+    ========================================= */
+
+    async function guardarPrecio() {
+
+        if (!pedidoActual) {
+            return;
+        }
+
+
+        const campo =
+            document.getElementById(
+                "campoPrecio"
+            );
+
+
+        const precio =
+            Number(
+                campo.value
+            );
+
+
+        const resultado =
+            document.getElementById(
+                "precioGuardado"
+            );
+
+
+        if (
+            isNaN(precio) ||
+            precio < 0
+        ) {
+
+            resultado.textContent =
+                "Por favor, agrega un precio válido.";
+
+
+            resultado.style.color =
+                "#b16c78";
+
+
+            return;
+        }
+
+
+        resultado.textContent =
+            "✨ Guardando precio...";
+
+
+        resultado.style.color =
+            "#806070";
+
+
+        try {
+
+            const respuesta =
+                await supabaseClient
+                    .from("pedidos")
+                    .update({
+                        precio:
+                            precio
+                    })
+                    .eq(
+                        "id",
+                        pedidoActual.id
+                    );
+
+
+            if (
+                respuesta.error
+            ) {
+
+                console.error(
+                    respuesta.error
+                );
+
+
+                resultado.textContent =
+                    "🌷 No se pudo guardar el precio: " +
+                    respuesta.error.message;
+
+
+                resultado.style.color =
+                    "#b16c78";
+
+
+                return;
+            }
+
+
+            pedidoActual.precio =
+                precio;
+
+
+            const posicion =
+                pedidos.findIndex(
+                    pedido =>
+                        pedido.id ===
+                        pedidoActual.id
+                );
+
+
+            if (
+                posicion !== -1
+            ) {
+
+                pedidos[
+                    posicion
+                ].precio =
+                    precio;
+
+            }
+
+
+            resultado.textContent =
+                "✓ Precio guardado correctamente: " +
+                formatearPrecio(
+                    precio
+                );
+
+
+            resultado.style.color =
+                "#596b3d";
+
+
+            actualizarEstadisticas();
+
+            mostrarPedidos();
+
+            mostrarCobros();
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            resultado.textContent =
+                "🌷 Error: " +
+                error.message;
+
+
+            resultado.style.color =
+                "#b16c78";
+
+        }
+
+    }
+
+
+    /* =========================================
+       TEXTO PRECIO
+    ========================================= */
+
+    function actualizarTextoPrecio() {
+
+        const resultado =
+            document.getElementById(
+                "precioGuardado"
+            );
+
+
+        if (
+            pedidoActual &&
+            Number(
+                pedidoActual.precio ||
+                0
+            ) > 0
+        ) {
+
+            resultado.textContent =
+                "Precio actual: " +
+                formatearPrecio(
+                    pedidoActual.precio
+                );
+
+
+            resultado.style.color =
+                "#596b3d";
+
+        } else {
+
+            resultado.textContent =
+                "Todavía no se ha agregado un precio.";
+
+
+            resultado.style.color =
+                "#927f90";
+
+        }
+
+    }
+
+
+    /* =========================================
+       MARCAR COBRO
+    ========================================= */
+
+    async function marcarCobro(
+        estado
+    ) {
+
+        if (!pedidoActual) {
+            return;
+        }
+
+
+        const resultado =
+            document.getElementById(
+                "estadoCobro"
+            );
+
+
+        resultado.textContent =
+            "✨ Guardando...";
+
+
+        try {
+
+            const respuesta =
+                await supabaseClient
+                    .from("pedidos")
+                    .update({
+                        estado_cobro:
+                            estado
+                    })
+                    .eq(
+                        "id",
+                        pedidoActual.id
+                    );
+
+
+            if (
+                respuesta.error
+            ) {
+
+                console.error(
+                    respuesta.error
+                );
+
+
+                resultado.textContent =
+                    "🌷 No se pudo actualizar el cobro: " +
+                    respuesta.error.message;
+
+
+                return;
+            }
+
+
+            pedidoActual.estado_cobro =
+                estado;
+
+
+            const posicion =
+                pedidos.findIndex(
+                    pedido =>
+                        pedido.id ===
+                        pedidoActual.id
+                );
+
+
+            if (
+                posicion !== -1
+            ) {
+
+                pedidos[
+                    posicion
+                ].estado_cobro =
+                    estado;
+
+            }
+
+
+            marcarCobroVisual(
+                estado
+            );
+
+
+            actualizarEstadisticas();
+
+            mostrarPedidos();
+
+            mostrarCobros();
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            resultado.textContent =
+                "🌷 Error: " +
+                error.message;
+
+        }
+
+    }
+
+
+    /* =========================================
+       VISUAL COBRO
+    ========================================= */
+
+    function marcarCobroVisual(
+        estado
+    ) {
+
+        const elemento =
+            document.getElementById(
+                "estadoCobro"
+            );
+
+
+        if (
+            estado ===
+            "Cobrado"
+        ) {
+
+            elemento.textContent =
+                "✓ Este pedido ha sido cobrado.";
+
+
+            elemento.className =
+                "cobrado";
+
+        } else {
+
+            elemento.textContent =
+                "⏳ Este pedido está pendiente de cobro.";
+
+
+            elemento.className =
+                "pendiente";
+
+        }
+
+    }
+
+
+    /* =========================================
+       CAMBIAR ESTADO
+    ========================================= */
+
+    async function cambiarEstado(
+        nuevoEstado
+    ) {
+
+        if (!pedidoActual) {
+            return;
+        }
+
+
+        const mensaje =
+            document.getElementById(
+                "mensajeEstado"
+            );
+
+
+        mensaje.textContent =
+            "✨ Guardando estado...";
+
+
+        try {
+
+            const respuesta =
+                await supabaseClient
+                    .from("pedidos")
+                    .update({
+                        estado:
+                            nuevoEstado
+                    })
+                    .eq(
+                        "id",
+                        pedidoActual.id
+                    );
+
+
+            if (
+                respuesta.error
+            ) {
+
+                console.error(
+                    respuesta.error
+                );
+
+
+                mensaje.textContent =
+                    "🌷 No se pudo actualizar el estado: " +
+                    respuesta.error.message;
+
+
+                return;
+            }
+
+
+            pedidoActual.estado =
+                nuevoEstado;
+
+
+            const posicion =
+                pedidos.findIndex(
+                    pedido =>
+                        pedido.id ===
+                        pedidoActual.id
+                );
+
+
+            if (
+                posicion !== -1
+            ) {
+
+                pedidos[
+                    posicion
+                ].estado =
+                    nuevoEstado;
+
+            }
+
+
+            document.getElementById(
+                "estadoDetalle"
+            ).textContent =
+                nuevoEstado;
+
+
+            aplicarColorEstado(
+                nuevoEstado
+            );
+
+
+            mensaje.textContent =
+                "✓ Estado actualizado correctamente.";
+
+
+            actualizarEstadisticas();
+
+            mostrarPedidos();
+
+            mostrarCobros();
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            mensaje.textContent =
+                "🌷 Error: " +
+                error.message;
+
+        }
+
+    }
+
+
+    /* =========================================
+       COLOR ESTADO
+    ========================================= */
+
+    function aplicarColorEstado(
+        nuevoEstado
+    ) {
+
+        const estado =
+            document.getElementById(
+                "estadoDetalle"
+            );
+
+
+        if (
+            nuevoEstado ===
+            "Nuevo"
+        ) {
+
+            estado.style.background =
+                "#f8d9e4";
+
+            estado.style.color =
+                "#9b526d";
+
+
+        } else if (
+            nuevoEstado ===
+            "Confirmado"
+        ) {
+
+            estado.style.background =
+                "#eadff0";
+
+            estado.style.color =
+                "#806070";
+
+
+        } else if (
+            nuevoEstado ===
+            "En preparación"
+        ) {
+
+            estado.style.background =
+                "#f5dc91";
+
+            estado.style.color =
+                "#806020";
+
+
+        } else if (
+            nuevoEstado ===
+            "Listo"
+        ) {
+
+            estado.style.background =
+                "#d9e7c9";
+
+            estado.style.color =
+                "#596b3d";
+
+
+        } else if (
+            nuevoEstado ===
+            "Entregado"
+        ) {
+
+            estado.style.background =
+                "#cfe3d1";
+
+            estado.style.color =
+                "#4d7252";
+
+        }
+
+    }
+
+
+    /* =========================================
+       CERRAR SESIÓN
+    ========================================= */
+
+    async function cerrarSesion() {
+
+        try {
+
+            await supabaseClient
+                .auth
+                .signOut();
+
+        } catch (error) {
+
+            console.error(
+                "Error cerrando sesión:",
+                error
+            );
+
+        }
+
+
+        sesionActual =
+            null;
+
+
+        pedidos =
+            [];
+
+
+        pedidoActual =
+            null;
+
+
+        adminPanel.style.display =
+            "none";
+
+
+        loginScreen.style.display =
+            "flex";
+
+
+        passwordInput.value =
+            "";
+
+
+        ocultarErrorLogin();
+
+
+        document
+            .getElementById(
+                "panelPrincipal"
+            )
+            .classList
+            .remove(
+                "oculto"
+            );
+
+
+        document
+            .getElementById(
+                "detallePedido"
+            )
+            .classList
+            .remove(
+                "activo"
+            );
+
+    }
+
+
+    /* =========================================
+       FORMATEAR PRECIO
+    ========================================= */
+
+    function formatearPrecio(
+        precio
+    ) {
+
+        return (
+            "₡" +
+            Number(
+                precio || 0
+            ).toLocaleString(
+                "es-CR"
+            )
+        );
+
+    }
+
+
+    /* =========================================
+       FORMATEAR FECHA
+    ========================================= */
+
+    function formatearFecha(
+        fecha
+    ) {
+
+        if (!fecha) {
+
+            return "Fecha no disponible";
+
+        }
+
+
+        const fechaObjeto =
+            new Date(
+                fecha
+            );
+
+
+        if (
+            isNaN(
+                fechaObjeto.getTime()
+            )
+        ) {
+
+            return "Fecha no disponible";
+
+        }
+
+
+        return fechaObjeto
+            .toLocaleString(
+                "es-CR",
+                {
+                    dateStyle:
+                        "long",
+
+                    timeStyle:
+                        "short"
+                }
+            );
+
+    }
+
+
+    /* =========================================
+       NÚMERO PEDIDO
+    ========================================= */
+
+    function obtenerNumeroPedido(
+        pedido,
+        indice
+    ) {
+
+        if (
+            pedido &&
+            pedido.id !==
+                undefined &&
+            pedido.id !==
+                null
+        ) {
+
+            const texto =
+                String(
+                    pedido.id
+                );
+
+
+            return texto
+                .slice(-6)
+                .padStart(
+                    6,
+                    "0"
+                );
+
+        }
+
+
+        return String(
+            indice + 1
+        ).padStart(
+            4,
+            "0"
+        );
+
+    }
+
+
+    /* =========================================
+       SEGURIDAD HTML
+    ========================================= */
+
+    function escaparHTML(
+        texto
+    ) {
+
+        if (
+            texto === null ||
+            texto === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(
+            texto
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================
+       SERVICE WORKER
+    ========================================= */
+
+    if (
+        "serviceWorker"
+        in navigator
+    ) {
+
+        window.addEventListener(
+            "load",
+            function() {
+
+                navigator.serviceWorker
+                    .register(
+                        "./service-worker-kiara.js"
+                    )
+                    .then(
+                        function(registro) {
+
+                            console.log(
+                                "🌷 App de Kiara lista."
+                            );
+
+                        }
+                    )
+                    .catch(
+                        function(error) {
+
+                            console.error(
+                                "🌷 Error registrando la app de Kiara:",
+                                error
+                            );
+
+                        }
+                    );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       CERRAR SESIÓN AL SALIR
+    ========================================= */
+
+    window.addEventListener(
+        "pagehide",
+        function() {
+
+            supabaseClient
+                .auth
+                .signOut()
+                .catch(
+                    error => {
+
+                        console.error(
+                            "Error cerrando sesión al salir:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+
+    /* =========================================
+       COMPROBAR SESIÓN
+    ========================================= */
+
+    async function comprobarSesion() {
+
+        try {
+
+            await supabaseClient
+                .auth
+                .signOut();
+
+        } catch (error) {
+
+            console.error(
+                "Error limpiando sesión anterior:",
+                error
+            );
+
+        }
+
+
+        sesionActual =
+            null;
+
+
+        pedidos =
+            [];
+
+
+        pedidoActual =
+            null;
+
+
+        loginScreen.style.display =
+            "flex";
+
+
+        adminPanel.style.display =
+            "none";
+
+    }
+
+
+    /* =========================================
+       INICIAR
+    ========================================= */
+
+    comprobarSesion();
+
+</script>
+```
+
+</body>
+</html>
