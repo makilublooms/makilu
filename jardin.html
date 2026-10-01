@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
 
     <style>
 
@@ -101,6 +101,61 @@
         }
 
 
+
+        /* =====================================================
+           HOJITAS Y DESTELLOS EN MOVIMIENTO
+           ===================================================== */
+
+        .hojita-flotante {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            color: #71834b;
+            font-size: 22px;
+            opacity: .72;
+            filter: drop-shadow(0 2px 4px rgba(60,70,40,.18));
+            animation: caerHoja 10s ease-in-out infinite;
+        }
+
+        .hojita-flotante.h1 { left: 5%; top: -5%; animation-delay: 0s; }
+        .hojita-flotante.h2 { left: 18%; top: 18%; animation-delay: 2s; }
+        .hojita-flotante.h3 { left: 32%; top: -8%; animation-delay: 4s; }
+        .hojita-flotante.h4 { left: 51%; top: 12%; animation-delay: 1s; }
+        .hojita-flotante.h5 { left: 68%; top: -6%; animation-delay: 5s; }
+        .hojita-flotante.h6 { left: 80%; top: 20%; animation-delay: 3s; }
+        .hojita-flotante.h7 { left: 92%; top: -4%; animation-delay: 6s; }
+        .hojita-flotante.h8 { left: 42%; top: 35%; animation-delay: 7s; }
+
+        @keyframes caerHoja {
+            0% { opacity: 0; transform: translate3d(0,-20px,0) rotate(0deg); }
+            15% { opacity: .75; }
+            50% { transform: translate3d(35px,38vh,0) rotate(100deg); }
+            85% { opacity: .6; }
+            100% { opacity: 0; transform: translate3d(-20px,105vh,0) rotate(220deg); }
+        }
+
+        .destello-extra {
+            position: fixed;
+            z-index: 1;
+            pointer-events: none;
+            color: rgba(255,248,207,.9);
+            text-shadow: 0 0 8px rgba(255,255,255,.9), 0 0 15px rgba(255,235,150,.65);
+            font-size: 17px;
+            animation: destelloMagico 3.5s ease-in-out infinite;
+        }
+
+        .destello-extra.d1 { left: 12%; top: 35%; }
+        .destello-extra.d2 { left: 28%; top: 52%; animation-delay: .8s; }
+        .destello-extra.d3 { left: 47%; top: 15%; animation-delay: 1.4s; }
+        .destello-extra.d4 { left: 63%; top: 42%; animation-delay: 2s; }
+        .destello-extra.d5 { left: 78%; top: 30%; animation-delay: .5s; }
+        .destello-extra.d6 { left: 91%; top: 68%; animation-delay: 1.8s; }
+
+        @keyframes destelloMagico {
+            0%,100% { opacity: .15; transform: scale(.65) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.35) rotate(18deg); }
+        }
+
         /* =====================================================
            HEADER
            ===================================================== */
@@ -113,22 +168,11 @@
         }
 
         .logo {
-            margin: 0 auto;
-            font-family: 'Parisienne', cursive;
+            margin: 0;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 72px;
             color: #596b3d;
             text-shadow: 0 2px 7px rgba(60,40,70,.25);
-            display: flex;
-            justify-content: center;
-            align-items: baseline;
-            gap: 0;
-            width: 100%;
-            line-height: 1;
-            white-space: nowrap;
-        }
-        .logo span {
-            display: inline-block;
-            flex: 0 0 auto;
         }
 
         .slogan {
@@ -828,77 +872,84 @@
         .flores-contacto {
             display: flex;
             justify-content: center;
-            gap: 80px;
+            align-items: center;
+            gap: 85px;
             flex-wrap: wrap;
-            margin-bottom: 35px;
+            margin: 30px auto 45px;
         }
 
         .flor-contacto {
             position: relative;
-            width: 180px;
-            min-height: 190px;
-            padding: 25px 15px;
-            background: rgba(255,255,255,.92);
-            border-radius: 25px;
-            box-shadow: 0 12px 28px rgba(70,40,80,.18);
+            width: 290px;
+            height: 290px;
+            padding: 0;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: none;
         }
 
         .flor-contacto .flor-dibujo {
-            position: relative;
-            width: 65px;
-            height: 65px;
-            margin: 0 auto 15px;
+            position: absolute;
+            inset: 0;
+            width: 290px;
+            height: 290px;
+            margin: 0;
         }
 
         .flor-contacto .petalo {
             position: absolute;
-            width: 25px;
-            height: 25px;
+            width: 120px;
+            height: 120px;
             background: #f5dc91;
             border-radius: 50%;
+            box-shadow: 0 5px 14px rgba(70,40,80,.10);
+            animation: petaloRespira 4s ease-in-out infinite;
         }
 
-        .flor-contacto .petalo:nth-child(1) {
-            top: 0;
-            left: 20px;
-        }
-
-        .flor-contacto .petalo:nth-child(2) {
-            top: 20px;
-            left: 0;
-        }
-
-        .flor-contacto .petalo:nth-child(3) {
-            top: 20px;
-            right: 0;
-        }
-
-        .flor-contacto .petalo:nth-child(4) {
-            bottom: 0;
-            left: 20px;
-        }
+        .flor-contacto .petalo:nth-child(1) { top: 0; left: 85px; }
+        .flor-contacto .petalo:nth-child(2) { top: 85px; left: 0; animation-delay: .4s; }
+        .flor-contacto .petalo:nth-child(3) { top: 85px; right: 0; animation-delay: .8s; }
+        .flor-contacto .petalo:nth-child(4) { bottom: 0; left: 85px; animation-delay: 1.2s; }
 
         .centro-flor {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: white;
+            width: 165px;
+            height: 165px;
+            background: #fffdf8;
+            border: 4px solid rgba(245,220,145,.75);
             border-radius: 50%;
-            left: 22px;
-            top: 22px;
+            left: 62.5px;
+            top: 62.5px;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 18px;
+            box-shadow: 0 8px 20px rgba(70,40,80,.12);
         }
 
         .flor-contacto h3 {
-            margin: 5px 0;
+            margin: 0 0 5px;
             color: #596b3d;
-            font-family: 'Parisienne', cursive;
-            font-size: 28px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 27px;
+            font-weight: 600;
+            line-height: 1.05;
         }
 
         .flor-contacto p {
             margin: 0;
             color: #806070;
-            line-height: 1.5;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 1.25;
+        }
+
+        @keyframes petaloRespira {
+            0%,100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.035) rotate(2deg); }
         }
 
         .consulta {
@@ -1183,16 +1234,15 @@
             }
 
             .flores-contacto {
-                gap: 25px;
+                gap: 35px;
             }
         }
 
         @media (max-width: 600px) {
 
             .logo {
+                font-family: 'Cormorant Garamond', serif;
                 font-size: 58px;
-                width: 100%;
-                justify-content: center;
             }
 
             nav {
@@ -1285,6 +1335,42 @@
             .notita {
                 padding: 25px 20px;
             }
+
+            .flor-contacto {
+                width: 250px;
+                height: 250px;
+            }
+
+            .flor-contacto .flor-dibujo {
+                width: 250px;
+                height: 250px;
+            }
+
+            .flor-contacto .petalo {
+                width: 103px;
+                height: 103px;
+            }
+
+            .flor-contacto .petalo:nth-child(1) { left: 73.5px; }
+            .flor-contacto .petalo:nth-child(2) { top: 73.5px; }
+            .flor-contacto .petalo:nth-child(3) { top: 73.5px; }
+            .flor-contacto .petalo:nth-child(4) { left: 73.5px; }
+
+            .centro-flor {
+                width: 145px;
+                height: 145px;
+                left: 52.5px;
+                top: 52.5px;
+                padding: 14px;
+            }
+
+            .flor-contacto h3 {
+                font-size: 24px;
+            }
+
+            .flor-contacto p {
+                font-size: 15px;
+            }
         }
 
     </style>
@@ -1304,6 +1390,23 @@
     <div class="brillo"></div>
     <div class="brillo"></div>
 
+    <!-- HOJITAS Y DESTELLOS MÁGICOS -->
+    <div class="hojita-flotante h1">🍃</div>
+    <div class="hojita-flotante h2">🍃</div>
+    <div class="hojita-flotante h3">🍃</div>
+    <div class="hojita-flotante h4">🍃</div>
+    <div class="hojita-flotante h5">🍃</div>
+    <div class="hojita-flotante h6">🍃</div>
+    <div class="hojita-flotante h7">🍃</div>
+    <div class="hojita-flotante h8">🍃</div>
+
+    <div class="destello-extra d1">✦</div>
+    <div class="destello-extra d2">✧</div>
+    <div class="destello-extra d3">✦</div>
+    <div class="destello-extra d4">✧</div>
+    <div class="destello-extra d5">✦</div>
+    <div class="destello-extra d6">✧</div>
+
 
     <!-- =====================================================
          HEADER
@@ -1311,9 +1414,7 @@
 
     <header>
 
-        <h1 class="logo" aria-label="MAKILÚ">
-            <span>M</span><span>A</span><span>K</span><span>I</span><span>L</span><span>Ú</span>
-        </h1>
+        <h1 class="logo">MAKILÚ</h1>
 
         <p class="slogan">
             ✿ Flores que duran para siempre ✿
@@ -1329,10 +1430,6 @@
                 PRECIOS
             </button>
 
-            <button onclick="mostrarPagina('costos')">
-                COSTOS EXTRA
-            </button>
-
             <button onclick="mostrarPagina('personaliza')">
                 PERSONALIZA
             </button>
@@ -1343,6 +1440,10 @@
 
             <button onclick="mostrarPagina('sobre')">
                 SOBRE MAKILÚ
+            </button>
+
+            <button onclick="mostrarPagina('costos')">
+                DETALLES EXTRA
             </button>
 
         </nav>
@@ -1639,7 +1740,7 @@
         <div class="costos-contenedor">
 
             <h2 class="seccion-titulo">
-                Costos Extra
+                Detalles Extra
             </h2>
 
             <p class="seccion-subtitulo">
@@ -1736,7 +1837,7 @@
 
 
                     <label for="extra">
-                        ¿Deseas agregar algo de COSTOS EXTRA?
+                        ¿Deseas agregar algún detalle extra?
                     </label>
 
                     <select
@@ -1992,17 +2093,12 @@
                         <span class="petalo"></span>
                         <span class="petalo"></span>
 
-                        <span class="centro-flor"></span>
+                        <span class="centro-flor">
+                            <h3>Instagram</h3>
+                            <p>@makilu_blooms</p>
+                        </span>
 
                     </div>
-
-                    <h3>
-                        Instagram
-                    </h3>
-
-                    <p>
-                        @KIARA
-                    </p>
 
                 </div>
 
@@ -2016,21 +2112,12 @@
                         <span class="petalo"></span>
                         <span class="petalo"></span>
 
-                        <span class="centro-flor"></span>
+                        <span class="centro-flor">
+                            <h3>SINPE</h3>
+                            <p>8892-4525<br>A nombre de<br>STEFANY ROBLES</p>
+                        </span>
 
                     </div>
-
-                    <h3>
-                        SINPE
-                    </h3>
-
-                    <p>
-                        8892-4525
-                        <br>
-                        A nombre de
-                        <br>
-                        STEFANY ROBLES
-                    </p>
 
                 </div>
 
@@ -2066,17 +2153,12 @@
                         <span class="petalo"></span>
                         <span class="petalo"></span>
 
-                        <span class="centro-flor"></span>
+                        <span class="centro-flor">
+                            <h3>Kiara</h3>
+                            <p>6170-3991</p>
+                        </span>
 
                     </div>
-
-                    <h3>
-                        Kiara
-                    </h3>
-
-                    <p>
-                        6170-3991
-                    </p>
 
                 </div>
 
@@ -2090,17 +2172,12 @@
                         <span class="petalo"></span>
                         <span class="petalo"></span>
 
-                        <span class="centro-flor"></span>
+                        <span class="centro-flor">
+                            <h3>Stefany</h3>
+                            <p>8892-4525</p>
+                        </span>
 
                     </div>
-
-                    <h3>
-                        Stefany
-                    </h3>
-
-                    <p>
-                        8892-4525
-                    </p>
 
                 </div>
 
