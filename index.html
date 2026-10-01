@@ -278,6 +278,11 @@ body {
     text-align: center;
 
     width: 90%;
+    max-width: 1200px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
@@ -286,7 +291,7 @@ body {
 ========================= */
 
 .titulo {
-    font-family: 'Parisienne', cursive;
+    font-family: 'Cormorant Garamond', serif;
 
     font-size: clamp(80px, 11vw, 150px);
 
@@ -351,6 +356,8 @@ body {
     color: #5f7044;
 
     text-align: center;
+
+    width: 100%;
 }
 
 
@@ -653,12 +660,13 @@ body {
 
 
     /* =========================
-       CENTRO
+       CENTRO CELULAR
     ========================= */
 
     .contenido {
         width: 100%;
         max-width: 100%;
+
         top: 43%;
         left: 50%;
 
@@ -671,6 +679,10 @@ body {
         text-align: center;
 
         overflow: visible;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
 
@@ -679,7 +691,7 @@ body {
     ========================= */
 
     .titulo {
-        font-family: 'Parisienne', cursive;
+        font-family: 'Cormorant Garamond', serif;
 
         font-size: 64px !important;
 
@@ -774,9 +786,17 @@ body {
     .contenido {
         padding-left: 8px;
         padding-right: 8px;
+
+        width: 100%;
+        max-width: 100%;
+
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .titulo {
+        font-family: 'Cormorant Garamond', serif;
+
         font-size: 56px !important;
 
         width: 100% !important;
@@ -786,11 +806,15 @@ body {
 
         justify-content: center !important;
 
+        align-items: baseline !important;
+
         text-align: center !important;
 
         margin: 0 auto !important;
 
         letter-spacing: 0 !important;
+
+        white-space: nowrap !important;
     }
 
     .subtitulo {
@@ -829,17 +853,26 @@ body {
 @media (max-width: 340px) {
 
     .titulo {
+        font-family: 'Cormorant Garamond', serif;
+
         font-size: 50px !important;
 
         width: 100% !important;
+        max-width: 100% !important;
 
         display: flex !important;
 
         justify-content: center !important;
 
+        align-items: baseline !important;
+
         text-align: center !important;
 
         margin: 0 auto !important;
+
+        letter-spacing: 0 !important;
+
+        white-space: nowrap !important;
     }
 
     .subtitulo {
