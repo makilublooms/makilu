@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MAKILÚ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+
+/* =========================
+   JARDÍN
+========================= */
+
+.jardin {
+    position: relative;
+    width: 100vw;
+    height: 100dvh;
+    min-height: 100vh;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.28),
+            transparent 45%
+        ),
+        linear-gradient(
+            to bottom,
+            #f3c8d5,
+            #efb7ca
+        );
+}
+
+
+/* =========================
+   BRILLO
+========================= */
+
+.brillo {
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: rgba(255,255,255,.16);
+
+    filter: blur(80px);
+
+    border-radius: 50%;
+}
+
+
+/* =========================
+   DESTELLOS
+========================= */
+
+.destello {
+    position: absolute;
+
+    color: rgba(255,255,255,.75);
+
+    font-size: 18px;
+
+    animation:
+        brilloEstrella
+        5s ease-in-out infinite;
+}
+
+.destello:nth-child(1) {
+    top: 12%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.destello:nth-child(2) {
+    top: 23%;
+    left: 30%;
+    animation-delay: 1s;
+}
+
+.destello:nth-child(3) {
+    top: 10%;
+    left: 48%;
+    animation-delay: 2s;
+}
+
+.destello:nth-child(4) {
+    top: 30%;
+    left: 67%;
+    animation-delay: .5s;
+}
+
+.destello:nth-child(5) {
+    top: 17%;
+    left: 82%;
+    animation-delay: 1.5s;
+}
+
+.destello:nth-child(6) {
+    top: 42%;
+    left: 12%;
+    animation-delay: 2.5s;
+}
+
+.destello:nth-child(7) {
+    top: 50%;
+    left: 85%;
+    animation-delay: 1s;
+}
+
+.destello:nth-child(8) {
+    top: 65%;
+    left: 20%;
+    animation-delay: 3s;
+}
+
+.destello:nth-child(9) {
+    top: 58%;
+    left: 74%;
+    animation-delay: 2s;
+}
+
+.destello:nth-child(10) {
+    top: 75%;
+    left: 38%;
+    animation-delay: .7s;
+}
+
+.destello:nth-child(11) {
+    top: 70%;
+    left: 60%;
+    animation-delay: 2.8s;
+}
+
+.destello:nth-child(12) {
+    top: 35%;
+    left: 45%;
+    animation-delay: 1.8s;
+}
+
+
+@keyframes brilloEstrella {
+
+    0%,
+    100% {
+        opacity: .2;
+
+        transform:
+            translateY(0)
+            scale(.7)
+            rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+
+        transform:
+            translateY(-10px)
+            scale(1.2)
+            rotate(20deg);
+    }
+}
+
+
+/* =========================
+   ENREDADERAS
+========================= */
+
+.enredadera {
+    position: absolute;
+
+    top: -20px;
+
+    width: 180px;
+    height: 700px;
+
+    z-index: 2;
+
+    opacity: .82;
+
+    pointer-events: none;
+}
+
+.enredadera.izquierda {
+    left: -85px;
+}
+
+.enredadera.derecha {
+    right: -85px;
+
+    transform: scaleX(-1);
+}
+
+.enredadera .tallo {
+    position: absolute;
+
+    width: 8px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #71834b,
+            #53643a
+        );
+
+    border-radius: 20px;
+
+    left: 50%;
+}
+
+.enredadera .rama {
+    position: absolute;
+
+    width: 90px;
+    height: 6px;
+
+    background: #647744;
+
+    border-radius: 10px;
+
+    transform-origin: left center;
+}
+
+.enredadera .hoja {
+    position: absolute;
+
+    width: 25px;
+    height: 13px;
+
+    background: #71834b;
+
+    border-radius: 100% 0 100% 0;
+}
+
+
+/* =========================
+   CENTRO
+========================= */
+
+.contenido {
+    position: absolute;
+
+    z-index: 10;
+
+    top: 46%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+
+    width: 90%;
+}
+
+
+/* =========================
+   MAKILÚ
+========================= */
+
+.titulo {
+    font-family: 'Parisienne', cursive;
+
+    font-size: clamp(80px, 11vw, 150px);
+
+    color: #596b3d;
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    text-shadow:
+        0 4px 15px
+        rgba(70,80,40,.12);
+
+    text-align: center;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: baseline;
+
+    margin: 0 auto;
+
+    padding: 0;
+
+    white-space: nowrap;
+
+    letter-spacing: 0;
+
+    box-sizing: border-box;
+}
+
+.titulo span {
+    display: inline-block;
+
+    flex: 0 0 auto;
+}
+
+
+/* =========================
+   SUBTÍTULO
+========================= */
+
+.subtitulo {
+    margin-top: 12px;
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size:
+        clamp(
+            17px,
+            2vw,
+            24px
+        );
+
+    letter-spacing: 2px;
+
+    color: #5f7044;
+
+    text-align: center;
+}
+
+
+/* =========================
+   BOTÓN
+========================= */
+
+.boton {
+    margin-top: 35px;
+
+    padding: 14px 30px;
+
+    border: none;
+
+    border-radius: 40px;
+
+    background: #f4df86;
+
+    color: #657443;
+
+    font-family:
+        'Cormorant Garamond',
+        serif;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 20px
+        rgba(80,80,40,.15);
+
+    transition: .3s ease;
+}
+
+.boton:hover {
+
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    box-shadow:
+        0 8px 25px
+        rgba(80,80,40,.2);
+}
+
+
+/* =========================
+   FLORES
+========================= */
+
+.flores {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 310px;
+
+    z-index: 6;
+
+    pointer-events: none;
+}
+
+.flor {
+    position: absolute;
+
+    bottom: 68px;
+
+    font-size:
+        clamp(
+            48px,
+            5vw,
+            72px
+        );
+
+    transform-origin:
+        center bottom;
+
+    opacity: 0;
+
+    animation:
+        florecer
+        2s cubic-bezier(.25,.65,.3,1)
+        forwards;
+}
+
+.flor::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+    height: 150px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #71834b,
+            #506239
+        );
+
+    border-radius: 10px;
+
+    left: 50%;
+    top: 55px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: -1;
+}
+
+
+@keyframes florecer {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(70px)
+            scale(.08)
+            rotate(-4deg);
+    }
+
+    25% {
+        opacity: .25;
+
+        transform:
+            translateY(45px)
+            scale(.18)
+            rotate(3deg);
+    }
+
+    50% {
+        opacity: .6;
+
+        transform:
+            translateY(20px)
+            scale(.45)
+            rotate(-2deg);
+    }
+
+    75% {
+        opacity: .9;
+
+        transform:
+            translateY(5px)
+            scale(.85)
+            rotate(2deg);
+    }
+
+    90% {
+        opacity: 1;
+
+        transform:
+            translateY(-2px)
+            scale(1.05)
+            rotate(-1deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1)
+            rotate(0deg);
+    }
+}
+
+
+/* =========================
+   POSICIONES FLORES
+========================= */
+
+.flor:nth-child(1) {
+    left: 4%;
+    animation-delay: .05s;
+}
+
+.flor:nth-child(2) {
+    left: 16%;
+    animation-delay: .15s;
+}
+
+.flor:nth-child(3) {
+    left: 28%;
+    animation-delay: .25s;
+}
+
+.flor:nth-child(4) {
+    left: 41%;
+    animation-delay: .1s;
+}
+
+.flor:nth-child(5) {
+    left: 54%;
+    animation-delay: .3s;
+}
+
+.flor:nth-child(6) {
+    left: 67%;
+    animation-delay: .2s;
+}
+
+.flor:nth-child(7) {
+    left: 80%;
+    animation-delay: .35s;
+}
+
+.flor:nth-child(8) {
+    left: 91%;
+    animation-delay: .15s;
+}
+
+
+/* =========================
+   PASTO
+========================= */
+
+.pasto {
+
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 70px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #71834b,
+            #596b3d
+        );
+
+    border-radius: 0;
+
+    z-index: 20;
+}
+
+
+/* ==================================================
+   📱 CELULAR
+================================================== */
+
+@media (max-width: 600px) {
+
+    .jardin {
+        width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+        overflow: hidden;
+    }
+
+    .brillo {
+        width: 280px;
+        height: 280px;
+        filter: blur(60px);
+    }
+
+    .destello {
+        font-size: 14px;
+    }
+
+    .enredadera {
+        width: 145px;
+        height: 650px;
+        top: -10px;
+        opacity: .95;
+        z-index: 3;
+    }
+
+    .enredadera.izquierda {
+        left: -35px;
+    }
+
+    .enredadera.derecha {
+        right: -35px;
+        transform: scaleX(-1);
+    }
+
+    .enredadera .tallo {
+        width: 7px;
+    }
+
+    .enredadera .rama {
+        width: 72px;
+        height: 5px;
+    }
+
+    .enredadera .hoja {
+        width: 21px;
+        height: 11px;
+    }
+
+
+    /* =========================
+       CENTRO
+    ========================= */
+
+    .contenido {
+        width: 100%;
+        max-width: 100%;
+        top: 43%;
+        left: 50%;
+
+        transform:
+            translate(-50%, -50%);
+
+        padding-left: 10px;
+        padding-right: 10px;
+
+        text-align: center;
+
+        overflow: visible;
+    }
+
+
+    /* =========================
+       TÍTULO CELULAR
+    ========================= */
+
+    .titulo {
+        font-family: 'Parisienne', cursive;
+
+        font-size: 64px !important;
+
+        line-height: 1 !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        display: flex !important;
+
+        justify-content: center !important;
+
+        align-items: baseline !important;
+
+        text-align: center !important;
+
+        margin: 0 auto !important;
+
+        padding: 0 !important;
+
+        white-space: nowrap !important;
+
+        letter-spacing: 0 !important;
+
+        transform: none !important;
+
+        color: #596b3d;
+
+        position: relative;
+
+        left: 0;
+        right: 0;
+    }
+
+    .titulo span {
+        display: inline-block;
+        flex: 0 0 auto;
+    }
+
+
+    .subtitulo {
+        margin-top: 10px;
+
+        font-size: 16px;
+
+        letter-spacing: 1px;
+
+        text-align: center;
+
+        white-space: nowrap;
+
+        width: 100%;
+    }
+
+
+    .boton {
+        margin-top: 28px;
+
+        padding:
+            12px 23px;
+
+        font-size: 16px;
+    }
+
+
+    .flores {
+        height: 245px;
+
+        z-index: 7;
+    }
+
+    .flor {
+        bottom: 50px;
+
+        font-size: 43px;
+    }
+
+    .pasto {
+        height: 55px;
+
+        z-index: 20;
+    }
+}
+
+
+/* ==================================================
+   📱 TELÉFONOS PEQUEÑOS
+================================================== */
+
+@media (max-width: 380px) {
+
+    .contenido {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .titulo {
+        font-size: 56px !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        display: flex !important;
+
+        justify-content: center !important;
+
+        text-align: center !important;
+
+        margin: 0 auto !important;
+
+        letter-spacing: 0 !important;
+    }
+
+    .subtitulo {
+        font-size: 14px;
+
+        letter-spacing: .7px;
+    }
+
+    .boton {
+        font-size: 15px;
+
+        padding:
+            11px 20px;
+    }
+
+    .enredadera.izquierda {
+        left: -32px;
+    }
+
+    .enredadera.derecha {
+        right: -32px;
+    }
+
+    .flor {
+        font-size: 37px;
+
+        bottom: 48px;
+    }
+}
+
+
+/* ==================================================
+   📱 TELÉFONOS MUY PEQUEÑOS
+================================================== */
+
+@media (max-width: 340px) {
+
+    .titulo {
+        font-size: 50px !important;
+
+        width: 100% !important;
+
+        display: flex !important;
+
+        justify-content: center !important;
+
+        text-align: center !important;
+
+        margin: 0 auto !important;
+    }
+
+    .subtitulo {
+        font-size: 13px;
+    }
+
+    .enredadera.izquierda {
+        left: -28px;
+    }
+
+    .enredadera.derecha {
+        right: -28px;
+    }
+
+    .flor {
+        font-size: 34px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="jardin">
+
+    <div class="brillo"></div>
+
+
+    <!-- DESTELLOS -->
+
+    <div class="destello">✦</div>
+    <div class="destello">✧</div>
+    <div class="destello">✦</div>
+    <div class="destello">✧</div>
+    <div class="destello">✦</div>
+    <div class="destello">✧</div>
+    <div class="destello">✦</div>
+    <div class="destello">✧</div>
+    <div class="destello">✦</div>
+    <div class="destello">✧</div>
+    <div class="destello">✦</div>
+    <div class="destello">✧</div>
+
+
+    <!-- ENREDADERA IZQUIERDA -->
+
+    <div class="enredadera izquierda">
+
+        <div class="tallo"></div>
+
+        <div
+            class="rama"
+            style="top:120px; left:45px; transform:rotate(25deg);">
+        </div>
+
+        <div
+            class="rama"
+            style="top:240px; left:45px; transform:rotate(-25deg);">
+        </div>
+
+        <div
+            class="rama"
+            style="top:370px; left:45px; transform:rotate(30deg);">
+        </div>
+
+        <div
+            class="rama"
+            style="top:500px; left:45px; transform:rotate(-20deg);">
+        </div>
+
+
+        <div
+            class="hoja"
+            style="top:105px; left:100px; transform:rotate(25deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:145px; left:70px; transform:rotate(-30deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:225px; left:100px; transform:rotate(-15deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:270px; left:70px; transform:rotate(30deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:355px; left:100px; transform:rotate(20deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:400px; left:70px; transform:rotate(-25deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:485px; left:100px; transform:rotate(25deg);">
+        </div>
+
+    </div>
+
+
+    <!-- ENREDADERA DERECHA -->
+
+    <div class="enredadera derecha">
+
+        <div class="tallo"></div>
+
+        <div
+            class="rama"
+            style="top:120px; left:45px; transform:rotate(25deg);">
+        </div>
+
+        <div
+            class="rama"
+            style="top:240px; left:45px; transform:rotate(-25deg);">
+        </div>
+
+        <div
+            class="rama"
+            style="top:370px; left:45px; transform:rotate(30deg);">
+        </div>
+
+        <div
+            class="rama"
+            style="top:500px; left:45px; transform:rotate(-20deg);">
+        </div>
+
+
+        <div
+            class="hoja"
+            style="top:105px; left:100px; transform:rotate(25deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:145px; left:70px; transform:rotate(-30deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:225px; left:100px; transform:rotate(-15deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:270px; left:70px; transform:rotate(30deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:355px; left:100px; transform:rotate(20deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:400px; left:70px; transform:rotate(-25deg);">
+        </div>
+
+        <div
+            class="hoja"
+            style="top:485px; left:100px; transform:rotate(25deg);">
+        </div>
+
+    </div>
+
+
+    <!-- CONTENIDO -->
+
+    <div class="contenido">
+
+        <h1 class="titulo" aria-label="MAKILÚ">
+            <span>M</span><span>A</span><span>K</span><span>I</span><span>L</span><span>Ú</span>
+        </h1>
+
+        <p class="subtitulo">
+            Flores que duran para siempre
+        </p>
+
+        <button
+            class="boton"
+            onclick="entrarAlJardin()">
+
+            🌷 Entrar al jardín
+
+        </button>
+
+    </div>
+
+
+    <!-- FLORES -->
+
+    <div class="flores">
+
+        <div class="flor">🌸</div>
+        <div class="flor">🌼</div>
+        <div class="flor">🌷</div>
+        <div class="flor">🌸</div>
+        <div class="flor">🌼</div>
+        <div class="flor">🌷</div>
+        <div class="flor">🌸</div>
+        <div class="flor">🌼</div>
+
+    </div>
+
+
+    <!-- PASTO -->
+
+    <div class="pasto"></div>
+
+</div>
+
+
+<script>
+
+function entrarAlJardin() {
+
+    window.location.href =
+        "jardin.html";
+
+}
+
+</script>
+
+</body>
+</html>
