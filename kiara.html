@@ -2299,6 +2299,106 @@
 
 
     /* =========================================
+       GANANCIAS HISTÓRICAS
+    ========================================= */
+
+    const CLAVE_GANANCIAS = "makilu_ganancias_totales";
+    const CLAVE_PEDIDOS_COBRADOS = "makilu_pedidos_cobrados";
+    const CLAVE_IDS_COBRADOS = "makilu_ids_cobrados";
+
+    // Esta fecha marca el momento de esta limpieza inicial.
+    // Solo se eliminarán pedidos creados antes de ella.
+    const FECHA_LIMPIEZA_INICIAL = "2026-10-02T22:27:00-06:00";
+    const CLAVE_LIMPIEZA_INICIAL = "makilu_limpieza_inicial_v1";
+
+    function obtenerGananciasHistoricas() {
+
+        return Number(
+            localStorage.getItem(
+                CLAVE_GANANCIAS
+            ) || 0
+        );
+
+    }
+
+
+    function obtenerPedidosCobradosHistoricos() {
+
+        return Number(
+            localStorage.getItem(
+                CLAVE_PEDIDOS_COBRADOS
+            ) || 0
+        );
+
+    }
+
+
+    function obtenerIdsCobrados() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    CLAVE_IDS_COBRADOS
+                ) || "[]"
+            );
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function registrarGananciaPedido(pedido) {
+
+        if (!pedido) {
+            return;
+        }
+
+        const id = String(
+            pedido.id
+        );
+
+        const ids = obtenerIdsCobrados();
+
+        if (ids.includes(id)) {
+            return;
+        }
+
+        const precio = Number(
+            pedido.precio || 0
+        );
+
+        const nuevoTotal =
+            obtenerGananciasHistoricas() + precio;
+
+        const nuevoConteo =
+            obtenerPedidosCobradosHistoricos() + 1;
+
+        ids.push(id);
+
+        localStorage.setItem(
+            CLAVE_GANANCIAS,
+            String(nuevoTotal)
+        );
+
+        localStorage.setItem(
+            CLAVE_PEDIDOS_COBRADOS,
+            String(nuevoConteo)
+        );
+
+        localStorage.setItem(
+            CLAVE_IDS_COBRADOS,
+            JSON.stringify(ids)
+        );
+
+    }
+
+
+    /* =========================================
        ELEMENTOS
     ========================================= */
 
@@ -2630,6 +2730,103 @@
                 resultado.data || [];
 
 
+            /* =========================================
+               LIMPIEZA INICIAL DE PEDIDOS ANTIGUOS
+            ========================================= */
+
+            if (
+                !localStorage.getItem(
+                    CLAVE_LIMPIEZA_INICIAL
+                )
+            ) {
+
+                const fechaCorte =
+                    new Date(
+                        FECHA_LIMPIEZA_INICIAL
+                    );
+
+                const pedidosAntiguos =
+                    pedidos.filter(
+                        pedido =>
+                            pedido.creado_en &&
+                            new Date(
+                                pedido.creado_en
+                            ) <= fechaCorte
+                    );
+
+                pedidosAntiguos.forEach(
+                    pedido => {
+
+                        if (
+                            pedido.estado_cobro ===
+                            "Cobrado"
+                        ) {
+
+                            registrarGananciaPedido(
+                                pedido
+                            );
+
+                        }
+
+                    }
+                );
+
+                if (pedidosAntiguos.length) {
+
+                    const idsAntiguos =
+                        pedidosAntiguos.map(
+                            pedido => pedido.id
+                        );
+
+                    const eliminacion =
+                        await supabaseClient
+                            .from("pedidos")
+                            .delete()
+                            .in(
+                                "id",
+                                idsAntiguos
+                            );
+
+                    if (eliminacion.error) {
+
+                        console.error(
+                            "Error limpiando pedidos antiguos:",
+                            eliminacion.error
+                        );
+
+                        container.innerHTML = `
+                            <div class="error-box">
+                                🌷 No se pudieron limpiar los pedidos anteriores.
+                                <br><br>
+                                <strong>Mensaje:</strong>
+                                ${escaparHTML(
+                                    eliminacion.error.message
+                                )}
+                            </div>
+                        `;
+
+                        return;
+
+                    }
+
+                    pedidos =
+                        pedidos.filter(
+                            pedido =>
+                                !idsAntiguos.includes(
+                                    pedido.id
+                                )
+                        );
+
+                }
+
+                localStorage.setItem(
+                    CLAVE_LIMPIEZA_INICIAL,
+                    "1"
+                );
+
+            }
+
+
             actualizarEstadisticas();
 
             mostrarPedidos();
@@ -2681,9 +2878,11 @@
 
         let pendiente = 0;
 
-        let cobrado = 0;
+        let cobrado =
+            obtenerGananciasHistoricas();
 
-        let pedidosCobrados = 0;
+        let pedidosCobrados =
+            obtenerPedidosCobradosHistoricos();
 
 
         pedidos.forEach(
@@ -3999,6 +4198,117 @@
 
             pedidoActual.estado =
                 nuevoEstado;
+
+
+            /* =========================================
+               SI EL PEDIDO FUE ENTREGADO:
+               GUARDAR LA GANANCIA Y ELIMINAR EL PEDIDO
+            ========================================= */
+
+            if (
+                nuevoEstado ===
+                "Entregado"
+            ) {
+
+                const pedidoEntregado = {
+                    ...pedidoActual
+                };
+
+                if (
+                    pedidoEntregado.estado_cobro ===
+                    "Cobrado"
+                ) {
+
+                    registrarGananciaPedido(
+                        pedidoEntregado
+                    );
+
+                }
+
+
+                mensaje.textContent =
+                    "✨ Eliminando pedido entregado...";
+
+
+                const eliminacion =
+                    await supabaseClient
+                        .from("pedidos")
+                        .delete()
+                        .eq(
+                            "id",
+                            pedidoEntregado.id
+                        );
+
+
+                if (
+                    eliminacion.error
+                ) {
+
+                    console.error(
+                        eliminacion.error
+                    );
+
+                    mensaje.textContent =
+                        "🌷 El pedido quedó como entregado, pero no se pudo eliminar: " +
+                        eliminacion.error.message;
+
+                    actualizarEstadisticas();
+                    mostrarPedidos();
+                    mostrarCobros();
+
+                    return;
+
+                }
+
+
+                pedidos =
+                    pedidos.filter(
+                        pedido =>
+                            pedido.id !==
+                            pedidoEntregado.id
+                    );
+
+
+                pedidoActual =
+                    null;
+
+
+                actualizarEstadisticas();
+
+                mostrarPedidos();
+
+                mostrarCobros();
+
+
+                document
+                    .getElementById(
+                        "detallePedido"
+                    )
+                    .classList
+                    .remove(
+                        "activo"
+                    );
+
+
+                document
+                    .getElementById(
+                        "panelPrincipal"
+                    )
+                    .classList
+                    .remove(
+                        "oculto"
+                    );
+
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+
+                return;
+
+            }
 
 
             const posicion =
