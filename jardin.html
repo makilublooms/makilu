@@ -8,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=GFS+Didot&family=Parisienne&display=swap" rel="stylesheet">
 
     <style>
 
@@ -30,6 +31,17 @@
             font-family: Georgia, serif;
             overflow-x: hidden;
             color: #fffdf8;
+        }
+
+
+        /* =====================================================
+           MAKILÚ LEGIBLE
+           ===================================================== */
+
+        .makilu-legible {
+            font-family: 'GFS Didot', 'Cormorant Garamond', serif !important;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
 
@@ -169,8 +181,10 @@
 
         .logo {
             margin: 0;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'GFS Didot', 'Cormorant Garamond', serif;
             font-size: 72px;
+            font-weight: 600;
+            letter-spacing: 1px;
             color: #596b3d;
             text-shadow: 0 2px 7px rgba(60,40,70,.25);
         }
@@ -309,6 +323,63 @@
             margin: 0;
             color: #596b3d;
             font-size: 18px;
+        }
+
+
+        /* =====================================================
+           GALERÍA DE CREACIONES
+           ===================================================== */
+
+        .galeria-contenedor {
+            width: min(1050px, 92%);
+            margin: 70px auto 40px;
+        }
+
+        .galeria-categoria {
+            margin-bottom: 60px;
+        }
+
+        .galeria-categoria-titulo {
+            margin: 0 0 10px;
+            font-family: 'Parisienne', cursive;
+            font-size: 42px;
+            color: white;
+            text-align: center;
+            text-shadow: 0 2px 6px rgba(60,40,70,.2);
+        }
+
+        .galeria-categoria-subtitulo {
+            margin: 0 0 25px;
+            color: white;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .galeria-item {
+            display: none;
+            overflow: hidden;
+            background: rgba(255,255,255,.92);
+            border-radius: 22px;
+            padding: 10px;
+            box-shadow: 0 10px 25px rgba(70,40,80,.20);
+        }
+
+        .galeria-item.visible {
+            display: block;
+        }
+
+        .galeria-item img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 16px;
         }
 
 
@@ -474,8 +545,10 @@
 
         .firma {
             margin-top: 15px;
-            font-family: 'Parisienne', cursive;
+            font-family: 'GFS Didot', 'Cormorant Garamond', serif;
             font-size: 27px;
+            font-weight: 600;
+            letter-spacing: 1px;
             color: #596b3d;
         }
 
@@ -1229,6 +1302,10 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
+            .galeria-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             .historia {
                 padding: 40px 45px;
             }
@@ -1241,8 +1318,10 @@
         @media (max-width: 600px) {
 
             .logo {
-                font-family: 'Cormorant Garamond', serif;
+                font-family: 'GFS Didot', 'Cormorant Garamond', serif;
                 font-size: 58px;
+                font-weight: 600;
+                letter-spacing: 1px;
             }
 
             nav {
@@ -1264,6 +1343,14 @@
 
             .flores-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .galeria-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .galeria-categoria-titulo {
+                font-size: 38px;
             }
 
             .precios-titulo,
@@ -1414,7 +1501,7 @@
 
     <header>
 
-        <h1 class="logo">MAKILÚ</h1>
+        <h1 class="logo makilu-legible">MAKILÚ</h1>
 
         <p class="slogan">
             ✿ Flores que duran para siempre ✿
@@ -1439,7 +1526,7 @@
             </button>
 
             <button onclick="mostrarPagina('sobre')">
-                SOBRE MAKILÚ
+                SOBRE <span class="makilu-legible">MAKILÚ</span>
             </button>
 
             <button onclick="mostrarPagina('costos')">
@@ -1519,6 +1606,94 @@
                     <h3>
                         Regalos personalizados
                     </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 GALERÍA AUTOMÁTICA
+                 ================================================= -->
+
+            <div class="galeria-contenedor" id="galeria">
+
+                <!-- FLORES INDIVIDUALES -->
+
+                <div class="galeria-categoria">
+
+                    <h2 class="galeria-categoria-titulo">
+                        Flores individuales
+                    </h2>
+
+                    <p class="galeria-categoria-subtitulo">
+                        Descubre nuestras flores hechas a mano.
+                    </p>
+
+                    <div
+                        class="galeria-grid"
+                        id="galeria-flores"
+                    ></div>
+
+                </div>
+
+
+                <!-- RAMOS -->
+
+                <div class="galeria-categoria">
+
+                    <h2 class="galeria-categoria-titulo">
+                        Ramos
+                    </h2>
+
+                    <p class="galeria-categoria-subtitulo">
+                        Conoce algunos de los ramos que hemos creado.
+                    </p>
+
+                    <div
+                        class="galeria-grid"
+                        id="galeria-ramos"
+                    ></div>
+
+                </div>
+
+
+                <!-- ARREGLOS -->
+
+                <div class="galeria-categoria">
+
+                    <h2 class="galeria-categoria-titulo">
+                        Arreglos
+                    </h2>
+
+                    <p class="galeria-categoria-subtitulo">
+                        Inspírate con nuestros arreglos personalizados.
+                    </p>
+
+                    <div
+                        class="galeria-grid"
+                        id="galeria-arreglos"
+                    ></div>
+
+                </div>
+
+
+                <!-- REGALOS -->
+
+                <div class="galeria-categoria">
+
+                    <h2 class="galeria-categoria-titulo">
+                        Regalos personalizados
+                    </h2>
+
+                    <p class="galeria-categoria-subtitulo">
+                        Ideas de creaciones hechas especialmente para alguien.
+                    </p>
+
+                    <div
+                        class="galeria-grid"
+                        id="galeria-regalos"
+                    ></div>
 
                 </div>
 
@@ -1658,7 +1833,7 @@
 
 
                                 <p>
-                                    En MAKILÚ creemos que cada ramo cuenta
+                                    En <span class="makilu-legible">MAKILÚ</span> creemos que cada ramo cuenta
                                     una pequeña historia, por eso no tenemos
                                     un precio fijo.
                                 </p>
@@ -1694,7 +1869,7 @@
 
 
                                 <div class="firma">
-                                    — MAKILÚ —
+                                    — <span class="makilu-legible">MAKILÚ</span> —
                                 </div>
 
                             </div>
@@ -2210,7 +2385,7 @@
         <div class="sobre-contenedor">
 
             <h2 class="sobre-titulo">
-                Sobre MAKILÚ
+                Sobre <span class="makilu-legible">MAKILÚ</span>
             </h2>
 
             <p class="presentacion">
@@ -2238,13 +2413,13 @@
                 <div class="historia-texto">
 
                     <p>
-                        Soy Kiara, la persona detrás de MAKILÚ.
+                        Soy Kiara, la persona detrás de <span class="makilu-legible">MAKILÚ</span>.
                         Creo cada flor con mis propias manos.
                     </p>
 
 
                     <p>
-                        Si me preguntan cómo nació MAKILÚ,
+                        Si me preguntan cómo nació <span class="makilu-legible">MAKILÚ</span>,
                         creo que todo comenzó por mi amor por las flores.
                     </p>
 
@@ -2288,7 +2463,7 @@
 
 
                     <p>
-                        Así nació MAKILÚ, de una idea muy sencilla:
+                        Así nació <span class="makilu-legible">MAKILÚ</span>, de una idea muy sencilla:
                         crear flores bonitas que no se marchiten y que puedan
                         quedarse para siempre como recuerdo de alguien,
                         de un momento o de un sentimiento.
@@ -2343,6 +2518,166 @@
                 SUPABASE_URL,
                 SUPABASE_PUBLISHABLE_KEY
             );
+
+
+        /* =====================================================
+           GALERÍA
+           ===================================================== */
+
+        const GALERIA_BUCKET = "galeria-makilu";
+
+        const GALERIA_TABLA = "galeria_makilu";
+
+
+        /* =====================================================
+           CARGAR GALERÍA
+           ===================================================== */
+
+        async function cargarGaleria() {
+
+            try {
+
+                const resultado =
+                    await supabaseClient
+                        .from(GALERIA_TABLA)
+                        .select('categoria, posicion, ruta_imagen')
+                        .order('posicion', {
+                            ascending: true
+                        });
+
+                if (resultado.error) {
+
+                    console.error(
+                        "Error cargando galería:",
+                        resultado.error
+                    );
+
+                    return;
+                }
+
+
+                const datos =
+                    resultado.data || [];
+
+
+                const contenedores = {
+                    flores: document.getElementById('galeria-flores'),
+                    ramos: document.getElementById('galeria-ramos'),
+                    arreglos: document.getElementById('galeria-arreglos'),
+                    regalos: document.getElementById('galeria-regalos')
+                };
+
+
+                Object.values(contenedores).forEach(function(contenedor) {
+
+                    if (contenedor) {
+                        contenedor.innerHTML = '';
+                    }
+
+                });
+
+
+                datos.forEach(function(item) {
+
+                    if (!item.ruta_imagen) {
+                        return;
+                    }
+
+
+                    const contenedor =
+                        contenedores[item.categoria];
+
+
+                    if (!contenedor) {
+                        return;
+                    }
+
+
+                    const resultadoUrl =
+                        supabaseClient.storage
+                            .from(GALERIA_BUCKET)
+                            .getPublicUrl(item.ruta_imagen);
+
+
+                    if (
+                        !resultadoUrl ||
+                        !resultadoUrl.data ||
+                        !resultadoUrl.data.publicUrl
+                    ) {
+                        return;
+                    }
+
+
+                    const tarjeta =
+                        document.createElement('div');
+
+                    tarjeta.className =
+                        'galeria-item visible';
+
+
+                    const imagen =
+                        document.createElement('img');
+
+                    imagen.src =
+                        resultadoUrl.data.publicUrl +
+                        '?v=' +
+                        encodeURIComponent(
+                            Date.now()
+                        );
+
+                    imagen.alt =
+                        obtenerNombreCategoria(
+                            item.categoria
+                        );
+
+
+                    imagen.loading = 'lazy';
+
+
+                    tarjeta.appendChild(imagen);
+
+                    contenedor.appendChild(tarjeta);
+
+                });
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error inesperado cargando galería:",
+                    error
+                );
+
+            }
+        }
+
+
+        /* =====================================================
+           NOMBRE DE CATEGORÍA
+           ===================================================== */
+
+        function obtenerNombreCategoria(categoria) {
+
+            const nombres = {
+
+                flores:
+                    'Flor individual de MAKILÚ',
+
+                ramos:
+                    'Ramo de MAKILÚ',
+
+                arreglos:
+                    'Arreglo de MAKILÚ',
+
+                regalos:
+                    'Regalo personalizado de MAKILÚ'
+
+            };
+
+
+            return nombres[categoria] ||
+                'Creación de MAKILÚ';
+        }
 
 
         /* =====================================================
@@ -2423,7 +2758,8 @@
 
         function mostrarPagina(pagina) {
 
-            const paginas = document.querySelectorAll('.pagina');
+            const paginas =
+                document.querySelectorAll('.pagina');
 
             paginas.forEach(function(seccion) {
 
@@ -2526,9 +2862,11 @@
 
                 lector.onload = function(e) {
 
-                    preview.src = e.target.result;
+                    preview.src =
+                        e.target.result;
 
-                    preview.style.display = 'block';
+                    preview.style.display =
+                        'block';
 
                 };
 
@@ -2538,7 +2876,8 @@
 
                 preview.src = '';
 
-                preview.style.display = 'none';
+                preview.style.display =
+                    'none';
 
             }
         }
@@ -2562,7 +2901,8 @@
 
                 boton.disabled = true;
 
-                boton.textContent = '🌷 Enviando...';
+                boton.textContent =
+                    '🌷 Enviando...';
             }
 
             let rutaImagen = null;
@@ -2591,31 +2931,52 @@
                     document.getElementById('extra').value;
 
                 const detalleExtra =
-                    document.getElementById('extraDescripcion').value.trim();
+                    document
+                        .getElementById('extraDescripcion')
+                        .value
+                        .trim();
 
                 const colores =
-                    document.getElementById('colores').value.trim();
+                    document
+                        .getElementById('colores')
+                        .value
+                        .trim();
 
                 const personalizado =
                     document.getElementById('personalizacion').value;
 
                 const tema =
-                    document.getElementById('personalizacionDescripcion').value.trim();
+                    document
+                        .getElementById('personalizacionDescripcion')
+                        .value
+                        .trim();
 
                 const lugarEntrega =
-                    document.getElementById('ubicacion').value.trim();
+                    document
+                        .getElementById('ubicacion')
+                        .value
+                        .trim();
 
                 const notita =
                     document.getElementById('notita').value;
 
                 const mensajeNotita =
-                    document.getElementById('textoNotita').value.trim();
+                    document
+                        .getElementById('textoNotita')
+                        .value
+                        .trim();
 
                 const nombreCompleto =
-                    document.getElementById('nombre').value.trim();
+                    document
+                        .getElementById('nombre')
+                        .value
+                        .trim();
 
                 const telefono =
-                    document.getElementById('telefono').value.trim();
+                    document
+                        .getElementById('telefono')
+                        .value
+                        .trim();
 
                 const inputImagen =
                     document.getElementById('foto');
@@ -2627,7 +2988,9 @@
                 /* Separar nombre y apellido */
 
                 const partesNombre =
-                    nombreCompleto.split(/\s+/).filter(Boolean);
+                    nombreCompleto
+                        .split(/\s+/)
+                        .filter(Boolean);
 
                 const nombre =
                     partesNombre.shift() || '';
@@ -2648,7 +3011,9 @@
 
                 if (archivoImagen) {
 
-                    if (!archivoImagen.type.startsWith('image/')) {
+                    if (
+                        !archivoImagen.type.startsWith('image/')
+                    ) {
 
                         throw new Error(
                             'El archivo seleccionado no es una imagen válida.'
@@ -2706,29 +3071,36 @@
 
                     telefono: telefono,
 
-                    cantidad_flores: Number(cantidadFlores),
+                    cantidad_flores:
+                        Number(cantidadFlores),
 
                     colores: colores,
 
                     pago: pago,
 
-                    extras: extra === 'Sí'
-                        ? detalleExtra
-                        : 'No',
+                    extras:
+                        extra === 'Sí'
+                            ? detalleExtra
+                            : 'No',
 
-                    personalizado: personalizado,
+                    personalizado:
+                        personalizado,
 
-                    tema: personalizado === 'Sí'
-                        ? tema
-                        : '',
+                    tema:
+                        personalizado === 'Sí'
+                            ? tema
+                            : '',
 
-                    lugar_entrega: lugarEntrega,
+                    lugar_entrega:
+                        lugarEntrega,
 
-                    notita: notita,
+                    notita:
+                        notita,
 
-                    mensaje_notita: notita === 'Sí'
-                        ? mensajeNotita
-                        : '',
+                    mensaje_notita:
+                        notita === 'Sí'
+                            ? mensajeNotita
+                            : '',
 
                     precio: null,
 
@@ -2736,7 +3108,8 @@
 
                     estado_cobro: 'Pendiente',
 
-                    imagen_referencia: rutaImagen
+                    imagen_referencia:
+                        rutaImagen
                 };
 
 
@@ -2788,11 +3161,17 @@
 
                 formulario.reset();
 
-                document.getElementById('campoExtra').style.display = 'none';
+                document
+                    .getElementById('campoExtra')
+                    .style.display = 'none';
 
-                document.getElementById('campoPersonalizacion').style.display = 'none';
+                document
+                    .getElementById('campoPersonalizacion')
+                    .style.display = 'none';
 
-                document.getElementById('campoNotita').style.display = 'none';
+                document
+                    .getElementById('campoNotita')
+                    .style.display = 'none';
 
                 const preview =
                     document.getElementById('previewFoto');
@@ -2825,10 +3204,25 @@
 
                     boton.disabled = false;
 
-                    boton.textContent = '✿ Enviar encargo ✿';
+                    boton.textContent =
+                        '✿ Enviar encargo ✿';
                 }
             }
         }
+
+
+        /* =====================================================
+           CARGAR GALERÍA AL ABRIR LA PÁGINA
+           ===================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function() {
+
+                cargarGaleria();
+
+            }
+        );
 
     </script>
 
