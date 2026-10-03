@@ -3,7 +3,6 @@
 <html lang="es">
 <head>
 
-```
 <meta charset="UTF-8">
 
 <meta
@@ -1662,13 +1661,12 @@
     }
 
 </style>
-```
 
 </head>
 
 <body>
 
-```
+
 <!-- =========================================
      DECORACIONES
 ========================================= -->
@@ -2299,106 +2297,6 @@
 
 
     /* =========================================
-       GANANCIAS HISTÓRICAS
-    ========================================= */
-
-    const CLAVE_GANANCIAS = "makilu_ganancias_totales";
-    const CLAVE_PEDIDOS_COBRADOS = "makilu_pedidos_cobrados";
-    const CLAVE_IDS_COBRADOS = "makilu_ids_cobrados";
-
-    // Esta fecha marca el momento de esta limpieza inicial.
-    // Solo se eliminarán pedidos creados antes de ella.
-    const FECHA_LIMPIEZA_INICIAL = "2026-10-02T22:27:00-06:00";
-    const CLAVE_LIMPIEZA_INICIAL = "makilu_limpieza_inicial_v1";
-
-    function obtenerGananciasHistoricas() {
-
-        return Number(
-            localStorage.getItem(
-                CLAVE_GANANCIAS
-            ) || 0
-        );
-
-    }
-
-
-    function obtenerPedidosCobradosHistoricos() {
-
-        return Number(
-            localStorage.getItem(
-                CLAVE_PEDIDOS_COBRADOS
-            ) || 0
-        );
-
-    }
-
-
-    function obtenerIdsCobrados() {
-
-        try {
-
-            return JSON.parse(
-                localStorage.getItem(
-                    CLAVE_IDS_COBRADOS
-                ) || "[]"
-            );
-
-        } catch (error) {
-
-            return [];
-
-        }
-
-    }
-
-
-    function registrarGananciaPedido(pedido) {
-
-        if (!pedido) {
-            return;
-        }
-
-        const id = String(
-            pedido.id
-        );
-
-        const ids = obtenerIdsCobrados();
-
-        if (ids.includes(id)) {
-            return;
-        }
-
-        const precio = Number(
-            pedido.precio || 0
-        );
-
-        const nuevoTotal =
-            obtenerGananciasHistoricas() + precio;
-
-        const nuevoConteo =
-            obtenerPedidosCobradosHistoricos() + 1;
-
-        ids.push(id);
-
-        localStorage.setItem(
-            CLAVE_GANANCIAS,
-            String(nuevoTotal)
-        );
-
-        localStorage.setItem(
-            CLAVE_PEDIDOS_COBRADOS,
-            String(nuevoConteo)
-        );
-
-        localStorage.setItem(
-            CLAVE_IDS_COBRADOS,
-            JSON.stringify(ids)
-        );
-
-    }
-
-
-    /* =========================================
        ELEMENTOS
     ========================================= */
 
@@ -2726,105 +2624,21 @@
             }
 
 
+            /*
+             * IMPORTANTE:
+             *
+             * Los pedidos entregados NO se eliminan
+             * de Supabase.
+             *
+             * Se conservan en la base de datos para
+             * mantener el historial y las ganancias.
+             *
+             * Simplemente se ocultan de las listas
+             * de pedidos activos.
+             */
+
             pedidos =
                 resultado.data || [];
-
-
-            /* =========================================
-               LIMPIEZA INICIAL DE PEDIDOS ANTIGUOS
-            ========================================= */
-
-            if (
-                !localStorage.getItem(
-                    CLAVE_LIMPIEZA_INICIAL
-                )
-            ) {
-
-                const fechaCorte =
-                    new Date(
-                        FECHA_LIMPIEZA_INICIAL
-                    );
-
-                const pedidosAntiguos =
-                    pedidos.filter(
-                        pedido =>
-                            pedido.creado_en &&
-                            new Date(
-                                pedido.creado_en
-                            ) <= fechaCorte
-                    );
-
-                pedidosAntiguos.forEach(
-                    pedido => {
-
-                        if (
-                            pedido.estado_cobro ===
-                            "Cobrado"
-                        ) {
-
-                            registrarGananciaPedido(
-                                pedido
-                            );
-
-                        }
-
-                    }
-                );
-
-                if (pedidosAntiguos.length) {
-
-                    const idsAntiguos =
-                        pedidosAntiguos.map(
-                            pedido => pedido.id
-                        );
-
-                    const eliminacion =
-                        await supabaseClient
-                            .from("pedidos")
-                            .delete()
-                            .in(
-                                "id",
-                                idsAntiguos
-                            );
-
-                    if (eliminacion.error) {
-
-                        console.error(
-                            "Error limpiando pedidos antiguos:",
-                            eliminacion.error
-                        );
-
-                        container.innerHTML = `
-                            <div class="error-box">
-                                🌷 No se pudieron limpiar los pedidos anteriores.
-                                <br><br>
-                                <strong>Mensaje:</strong>
-                                ${escaparHTML(
-                                    eliminacion.error.message
-                                )}
-                            </div>
-                        `;
-
-                        return;
-
-                    }
-
-                    pedidos =
-                        pedidos.filter(
-                            pedido =>
-                                !idsAntiguos.includes(
-                                    pedido.id
-                                )
-                        );
-
-                }
-
-                localStorage.setItem(
-                    CLAVE_LIMPIEZA_INICIAL,
-                    "1"
-                );
-
-            }
 
 
             actualizarEstadisticas();
@@ -2863,27 +2677,46 @@
 
     function actualizarEstadisticas() {
 
+        /*
+         * Los pedidos entregados ya no cuentan
+         * como pedidos activos.
+         */
+
+        const pedidosActivos =
+            pedidos.filter(
+                pedido =>
+                    pedido.estado !==
+                    "Entregado"
+            );
+
+
         const total =
-            pedidos.length;
+            pedidosActivos.length;
 
 
         const nuevos =
-            pedidos.filter(
+            pedidosActivos.filter(
                 pedido =>
                     !pedido.estado ||
                     pedido.estado ===
-                        "Nuevo"
+                    "Nuevo"
             ).length;
 
 
         let pendiente = 0;
 
-        let cobrado =
-            obtenerGananciasHistoricas();
+        let cobrado = 0;
 
-        let pedidosCobrados =
-            obtenerPedidosCobradosHistoricos();
+        let pedidosCobrados = 0;
 
+
+        /*
+         * Las ganancias se calculan directamente
+         * desde los pedidos guardados en Supabase.
+         *
+         * Así no dependen del navegador,
+         * localStorage ni de un dispositivo específico.
+         */
 
         pedidos.forEach(
             pedido => {
@@ -2905,7 +2738,16 @@
 
                     pedidosCobrados++;
 
-                } else {
+                } else if (
+                    pedido.estado !==
+                    "Entregado"
+                ) {
+
+                    /*
+                     * Solo mostramos como pendiente
+                     * lo que todavía pertenece a un
+                     * pedido activo.
+                     */
 
                     pendiente +=
                         precio;
@@ -2988,11 +2830,24 @@
             );
 
 
-        if (!pedidos.length) {
+        /*
+         * Los entregados permanecen en Supabase,
+         * pero no aparecen en esta lista.
+         */
+
+        const pedidosActivos =
+            pedidos.filter(
+                pedido =>
+                    pedido.estado !==
+                    "Entregado"
+            );
+
+
+        if (!pedidosActivos.length) {
 
             container.innerHTML = `
                 <div class="empty">
-                    🌷 Todavía no hay pedidos registrados.
+                    🌷 No hay pedidos activos en este momento.
                 </div>
             `;
 
@@ -3001,17 +2856,18 @@
 
 
         container.innerHTML =
-            pedidos
+            pedidosActivos
                 .map(
                     (
-                        pedido,
-                        indice
+                        pedido
                     ) => {
 
                         const numero =
                             obtenerNumeroPedido(
                                 pedido,
-                                indice
+                                pedidos.indexOf(
+                                    pedido
+                                )
                             );
 
 
@@ -3110,7 +2966,9 @@
 
                                 <button
                                     class="ver-button"
-                                    onclick="verPedido(${indice})"
+                                    onclick="verPedidoPorId('${String(
+                                        pedido.id
+                                    )}')"
                                 >
                                     Ver pedido completo
                                 </button>
@@ -3138,11 +2996,27 @@
             );
 
 
-        if (!pedidos.length) {
+        /*
+         * Los pedidos entregados ya no aparecen
+         * en la lista visual de control de cobros.
+         *
+         * PERO siguen contando en el total cobrado
+         * de las estadísticas si fueron cobrados.
+         */
+
+        const pedidosActivos =
+            pedidos.filter(
+                pedido =>
+                    pedido.estado !==
+                    "Entregado"
+            );
+
+
+        if (!pedidosActivos.length) {
 
             container.innerHTML = `
                 <div class="empty">
-                    🌷 No hay pedidos para mostrar.
+                    🌷 No hay pedidos pendientes de gestión.
                 </div>
             `;
 
@@ -3151,11 +3025,10 @@
 
 
         container.innerHTML =
-            pedidos
+            pedidosActivos
                 .map(
                     (
-                        pedido,
-                        indice
+                        pedido
                     ) => {
 
                         const nombre =
@@ -3202,7 +3075,9 @@
 
                                         Pedido #${obtenerNumeroPedido(
                                             pedido,
-                                            indice
+                                            pedidos.indexOf(
+                                                pedido
+                                            )
                                         )}
 
                                         <br>
@@ -3250,7 +3125,9 @@
 
                                     <button
                                         class="ver-button"
-                                        onclick="verPedido(${indice})"
+                                        onclick="verPedidoPorId('${String(
+                                            pedido.id
+                                        )}')"
                                     >
                                         Ver
                                     </button>
@@ -3269,20 +3146,32 @@
 
 
     /* =========================================
-       VER PEDIDO
+       VER PEDIDO POR ID
     ========================================= */
 
-    function verPedido(
-        indice
+    function verPedidoPorId(
+        id
     ) {
 
-        pedidoActual =
-            pedidos[indice];
+        const pedido =
+            pedidos.find(
+                pedido =>
+                    String(
+                        pedido.id
+                    ) ===
+                    String(
+                        id
+                    )
+            );
 
 
-        if (!pedidoActual) {
+        if (!pedido) {
             return;
         }
+
+
+        pedidoActual =
+            pedido;
 
 
         document
@@ -3317,6 +3206,32 @@
 
 
     /* =========================================
+       VER PEDIDO
+       
+       Se mantiene por compatibilidad.
+    ========================================= */
+
+    function verPedido(
+        indice
+    ) {
+
+        const pedido =
+            pedidos[indice];
+
+
+        if (!pedido) {
+            return;
+        }
+
+
+        verPedidoPorId(
+            pedido.id
+        );
+
+    }
+
+
+    /* =========================================
        CARGAR DETALLE
     ========================================= */
 
@@ -3324,6 +3239,11 @@
 
         const pedido =
             pedidoActual;
+
+
+        if (!pedido) {
+            return;
+        }
 
 
         const nombre =
@@ -4200,9 +4120,35 @@
                 nuevoEstado;
 
 
+            const posicion =
+                pedidos.findIndex(
+                    pedido =>
+                        pedido.id ===
+                        pedidoActual.id
+                );
+
+
+            if (
+                posicion !== -1
+            ) {
+
+                pedidos[
+                    posicion
+                ].estado =
+                    nuevoEstado;
+
+            }
+
+
             /* =========================================
-               SI EL PEDIDO FUE ENTREGADO:
-               GUARDAR LA GANANCIA Y ELIMINAR EL PEDIDO
+               PEDIDO ENTREGADO
+
+               IMPORTANTE:
+               NO SE ELIMINA DE SUPABASE.
+
+               Solo se oculta de las listas activas.
+               El precio y el estado de cobro permanecen
+               guardados en la base de datos.
             ========================================= */
 
             if (
@@ -4210,67 +4156,8 @@
                 "Entregado"
             ) {
 
-                const pedidoEntregado = {
-                    ...pedidoActual
-                };
-
-                if (
-                    pedidoEntregado.estado_cobro ===
-                    "Cobrado"
-                ) {
-
-                    registrarGananciaPedido(
-                        pedidoEntregado
-                    );
-
-                }
-
-
                 mensaje.textContent =
-                    "✨ Eliminando pedido entregado...";
-
-
-                const eliminacion =
-                    await supabaseClient
-                        .from("pedidos")
-                        .delete()
-                        .eq(
-                            "id",
-                            pedidoEntregado.id
-                        );
-
-
-                if (
-                    eliminacion.error
-                ) {
-
-                    console.error(
-                        eliminacion.error
-                    );
-
-                    mensaje.textContent =
-                        "🌷 El pedido quedó como entregado, pero no se pudo eliminar: " +
-                        eliminacion.error.message;
-
-                    actualizarEstadisticas();
-                    mostrarPedidos();
-                    mostrarCobros();
-
-                    return;
-
-                }
-
-
-                pedidos =
-                    pedidos.filter(
-                        pedido =>
-                            pedido.id !==
-                            pedidoEntregado.id
-                    );
-
-
-                pedidoActual =
-                    null;
+                    "✨ Pedido entregado. Guardando registro...";
 
 
                 actualizarEstadisticas();
@@ -4278,6 +4165,10 @@
                 mostrarPedidos();
 
                 mostrarCobros();
+
+
+                pedidoActual =
+                    null;
 
 
                 document
@@ -4307,26 +4198,6 @@
 
 
                 return;
-
-            }
-
-
-            const posicion =
-                pedidos.findIndex(
-                    pedido =>
-                        pedido.id ===
-                        pedidoActual.id
-                );
-
-
-            if (
-                posicion !== -1
-            ) {
-
-                pedidos[
-                    posicion
-                ].estado =
-                    nuevoEstado;
 
             }
 
@@ -4793,7 +4664,6 @@
     comprobarSesion();
 
 </script>
-```
 
 </body>
 </html>
